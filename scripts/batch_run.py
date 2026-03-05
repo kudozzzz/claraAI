@@ -1,12 +1,3 @@
-"""
-batch_run.py — Run all 10 call files through both Pipeline A and Pipeline B.
-
-Usage:
-    python scripts/batch_run.py                          # auto-discover data/ folder
-    python scripts/batch_run.py --demo-dir data/demo --onboarding-dir data/onboarding
-    python scripts/batch_run.py --no-llm                 # force rule-based extraction
-"""
-
 import sys
 import os
 import argparse
@@ -90,9 +81,7 @@ def run_batch(
         "errors": [],
     }
 
-    # -----------------------------------------------------------------------
     # Pipeline A: Demo calls → v1
-    # -----------------------------------------------------------------------
     logger.info("")
     logger.info("=== PIPELINE A (Demo → v1) ===")
 
@@ -136,9 +125,7 @@ def run_batch(
                 "error": str(exc),
             })
 
-    # -----------------------------------------------------------------------
     # Pipeline B: Onboarding calls → v2
-    # -----------------------------------------------------------------------
     logger.info("")
     logger.info("=== PIPELINE B (Onboarding → v2) ===")
 
@@ -205,9 +192,8 @@ def run_batch(
                 "error": str(exc),
             })
 
-    # -----------------------------------------------------------------------
     # Summary
-    # -----------------------------------------------------------------------
+    
     logger.info("")
     logger.info("=== BATCH RUN COMPLETE ===")
 

@@ -1,26 +1,11 @@
-"""
-generate_agent_spec.py — Generate a Retell Agent Draft Spec from an Account Memo.
-
-The generated spec includes:
-  - agent_name
-  - voice_style
-  - system_prompt (full conversation script)
-  - key_variables
-  - tool_invocation_placeholders
-  - call_transfer_protocol
-  - fallback_protocol
-  - version
-"""
-
 from typing import Any
 from scripts.utils import get_logger, now_iso
 
 logger = get_logger(__name__)
 
 
-# ---------------------------------------------------------------------------
+
 # System prompt template
-# ---------------------------------------------------------------------------
 
 def _build_system_prompt(memo: dict) -> str:
     """Generate the Clara agent system prompt from memo data."""

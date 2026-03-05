@@ -1,14 +1,3 @@
-"""
-update_agent.py — Apply onboarding updates to a v1 account memo + agent spec,
-producing v2 artifacts and a changelog.
-
-This module handles:
-  - Merging onboarding data into existing memo (non-destructive, preserves v1)
-  - Detecting and logging conflicts
-  - Generating diff/changelog
-  - Producing updated agent spec (v2)
-"""
-
 import json
 from typing import Any
 
@@ -19,9 +8,7 @@ from scripts.generate_agent_spec import generate_agent_spec
 logger = get_logger(__name__)
 
 
-# ---------------------------------------------------------------------------
 # Merge logic
-# ---------------------------------------------------------------------------
 
 def _merge_lists(existing: list, updates: list) -> list:
     """Merge two lists, deduplicating while preserving order (updates take priority)."""
@@ -130,9 +117,7 @@ def merge_memo(v1_memo: dict, onboarding_memo: dict) -> tuple[dict, list]:
     return v2, conflicts
 
 
-# ---------------------------------------------------------------------------
 # Changelog generator
-# ---------------------------------------------------------------------------
 
 def generate_changelog(
     v1_memo: dict,
@@ -226,9 +211,7 @@ def generate_changelog(
     return "\n".join(lines)
 
 
-# ---------------------------------------------------------------------------
 # Public pipeline function
-# ---------------------------------------------------------------------------
 
 def apply_onboarding_update(
     v1_memo: dict,

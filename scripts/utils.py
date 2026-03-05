@@ -8,9 +8,8 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
-# ---------------------------------------------------------------------------
 # Logging
-# ---------------------------------------------------------------------------
+
 
 def get_logger(name: str) -> logging.Logger:
     logging.basicConfig(
@@ -21,9 +20,8 @@ def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(name)
 
 
-# ---------------------------------------------------------------------------
+
 # File I/O helpers
-# ---------------------------------------------------------------------------
 
 def read_transcript(path: str) -> str:
     """Read a transcript file and return its text content."""
@@ -51,9 +49,7 @@ def write_text(text: str, path: str) -> None:
         f.write(text)
 
 
-# ---------------------------------------------------------------------------
 # Output path helpers
-# ---------------------------------------------------------------------------
 
 def get_output_dir(account_id: str, version: str) -> str:
     """Return the output directory for a given account and version."""
@@ -69,9 +65,8 @@ def get_account_dir(account_id: str) -> str:
     return str(base)
 
 
-# ---------------------------------------------------------------------------
 # Timestamp helper
-# ---------------------------------------------------------------------------
+
 
 def now_iso() -> str:
     """Return current UTC time in ISO-8601 format."""
@@ -79,9 +74,7 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-# ---------------------------------------------------------------------------
 # Deep diff helpers
-# ---------------------------------------------------------------------------
 
 def deep_diff(old: dict, new: dict, path: str = "") -> list:
     """

@@ -1,10 +1,3 @@
-"""
-pipeline_b.py — Pipeline B: Onboarding Call → Agent Modification (v1 → v2)
-
-Input:  Path to an onboarding call transcript + existing v1 artifacts
-Output: v2/memo.json + v2/agent_spec.json + changelog.md
-"""
-
 import sys
 import os
 import argparse

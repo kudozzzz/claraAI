@@ -1,10 +1,3 @@
-"""
-pipeline_a.py — Pipeline A: Demo Call → Preliminary Agent (v1)
-
-Input:  Path to a demo call transcript file
-Output: v1/memo.json + v1/agent_spec.json stored under outputs/accounts/<account_id>/v1/
-"""
-
 import sys
 import os
 import argparse

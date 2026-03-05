@@ -1,14 +1,3 @@
-"""
-LLM integration module — supports multiple zero-cost backends.
-
-Backends (in priority order):
-  1. groq     — Groq Cloud free tier (requires GROQ_API_KEY env var)
-  2. ollama   — local Ollama instance (requires Ollama running locally)
-  3. rule_based — pure regex/rule extraction (always available, no LLM needed)
-
-Set LLM_BACKEND env var to choose, or let the module auto-detect.
-"""
-
 import os
 import json
 import re
@@ -17,9 +6,7 @@ from scripts.utils import get_logger
 
 logger = get_logger(__name__)
 
-# ---------------------------------------------------------------------------
 # Backend detection
-# ---------------------------------------------------------------------------
 
 def _detect_backend() -> str:
     explicit = os.environ.get("LLM_BACKEND", "").lower()
@@ -46,9 +33,7 @@ BACKEND = _detect_backend()
 logger.info("LLM backend selected: %s", BACKEND)
 
 
-# ---------------------------------------------------------------------------
 # Groq backend
-# ---------------------------------------------------------------------------
 
 def _call_groq(system_prompt: str, user_prompt: str) -> str:
     """Call Groq API with the given prompts. Returns the assistant response text."""
@@ -76,9 +61,8 @@ def _call_groq(system_prompt: str, user_prompt: str) -> str:
     return response.choices[0].message.content
 
 
-# ---------------------------------------------------------------------------
 # Ollama backend
-# ---------------------------------------------------------------------------
+
 
 def _call_ollama(system_prompt: str, user_prompt: str) -> str:
     """Call local Ollama instance."""
@@ -108,9 +92,7 @@ def _call_ollama(system_prompt: str, user_prompt: str) -> str:
     return data["message"]["content"]
 
 
-# ---------------------------------------------------------------------------
 # Public interface
-# ---------------------------------------------------------------------------
 
 def call_llm(system_prompt: str, user_prompt: str, backend: Optional[str] = None) -> str:
     """

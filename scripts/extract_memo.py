@@ -1,14 +1,3 @@
-"""
-extract_memo.py — Extract a structured Account Memo JSON from a call transcript.
-
-Supports two modes:
-  • LLM mode   — uses Groq (free tier) or local Ollama for extraction
-  • Rule-based — pure regex + heuristic extraction (zero-cost, always works)
-
-The LLM mode is more accurate for messy real-world transcripts; rule-based is
-deterministic and always available.
-"""
-
 import re
 import json
 from typing import Any
@@ -18,9 +7,7 @@ from scripts.llm_client import call_llm, is_llm_available, BACKEND
 
 logger = get_logger(__name__)
 
-# ---------------------------------------------------------------------------
 # LLM extraction
-# ---------------------------------------------------------------------------
 
 EXTRACTION_SYSTEM_PROMPT = """You are a business operations analyst. Your job is to extract 
 structured configuration data from call transcripts for service trade companies.
