@@ -1,0 +1,51 @@
+DEMO CALL TRANSCRIPT — Apex Electrical Services
+Account ID: account_003
+Date: 2024-01-15
+Participants: James (Clara Sales), Tony Marchetti (Apex Electrical - Operations Manager)
+
+---
+
+James: Hi Tony, good afternoon. I'm James from Clara Answers. We help electrical contractors and other service trade businesses manage inbound calls automatically. Thanks for making time.
+
+Tony: Yeah, hi James. We've been looking for something like this. We're Apex Electrical Services. We do commercial and industrial electrical work — panel upgrades, code compliance, emergency power systems. Based in Chicago, Illinois.
+
+James: Great market. What are your main pain points with calls?
+
+Tony: After hours is the big one. We have electricians getting emergency calls but also a lot of non-emergency stuff. Someone's outlet doesn't work — that's not an emergency. But if a building has a total power failure or there's an electrical fire risk, that absolutely is.
+
+James: How do you define an emergency today?
+
+Tony: Power failure affecting a whole building — commercial or industrial. Any situation involving sparking, burning smell, or electrical fire risk. Generator failure for a critical facility. Those are our emergencies.
+
+James: And business hours?
+
+Tony: Monday through Friday, 7 AM to 4:30 PM Central Time. We're sometimes in on Saturday mornings but not officially open. Our office is at 789 North Michigan Avenue, Suite 300, Chicago, IL 60611.
+
+James: After hours — who handles escalations?
+
+Tony: We have a senior electrician on call. There's usually a primary and then a second backup. If both don't answer within two attempts each, the caller should be told we'll call back within 20 minutes. That's our SLA.
+
+James: Do you use any field service software?
+
+Tony: We use FieldEdge. Similar to ServiceTitan. We don't want customers trying to create tickets or anything — that goes through our dispatcher.
+
+James: Understood. What about non-emergency after-hours calls?
+
+Tony: If it's not an emergency, collect their name, number, and a brief description of the issue. We'll call back first thing in the morning.
+
+James: Let me walk you through a demonstration...
+
+[Demo interaction plays]
+
+Tony: That's clean. One thing — we also get calls from general contractors wanting to schedule walk-throughs or bids. Those are definitely non-emergency. Clara should handle them the same as regular service requests.
+
+James: Absolutely. Any other nuances?
+
+Tony: Yeah — if someone says it's a generator failure at a hospital or data center, that's our highest priority. Bump those to top of the emergency queue.
+
+James: Got it — critical facility generator failures get top priority. We'll flag that in the configuration.
+
+Tony: Good. I'll talk to our owner and get back to you.
+
+---
+END OF TRANSCRIPT

@@ -1,0 +1,57 @@
+DEMO CALL TRANSCRIPT — ShieldGuard Security Systems
+Account ID: account_004
+Date: 2024-01-18
+Participants: Sarah (Clara Sales), Rachel Kim (ShieldGuard - Owner)
+
+---
+
+Sarah: Hi Rachel, I'm Sarah from Clara Answers. Thanks for jumping on a call. I understand you're looking for a better way to handle inbound calls for your security company?
+
+Rachel: Hi Sarah, yes. We're ShieldGuard Security Systems. We install and monitor commercial burglar alarms, access control, and video surveillance. We're in Seattle, Washington.
+
+Sarah: Great. Tell me about your current call challenges.
+
+Rachel: We get a lot of after-hours alarm calls. When an alarm goes off, our monitoring center calls the customer contact first. But if they can't reach anyone, calls come to us. We also get customers calling in directly saying their alarm went off and they don't know why.
+
+Sarah: So the emergency scenario is an active alarm activation — burglar or otherwise — and no one has confirmed the site is safe?
+
+Rachel: Correct. If an alarm is actively going off and they haven't confirmed it's a false alarm, that's an emergency. Also if they see someone on their video cameras who shouldn't be there.
+
+Sarah: And standard business hours?
+
+Rachel: Monday through Friday, 8 AM to 5 PM Pacific Time. Saturday 9 AM to 1 PM. We're at 1520 Fourth Avenue, Suite 800, Seattle, WA 98101.
+
+Sarah: After-hours routing — what's the flow?
+
+Rachel: After hours, we have a duty manager on call. If it's an active alarm, they need to be reached immediately. The duty manager decides whether to call police or dispatch a guard.
+
+Sarah: What's your fallback if the duty manager doesn't answer?
+
+Rachel: We have a secondary contact. And if both fail, the caller should be told to call 911 if they feel in immediate danger, and we'll call them back within 10 minutes.
+
+Sarah: That's good safety protocol. Any software constraints?
+
+Rachel: We use Immix central station software internally. Customers don't interact with it. But we also have a ticketing system called Zendesk — Clara should never try to create Zendesk tickets.
+
+Sarah: Understood. Non-emergency calls?
+
+Rachel: Service requests, add/change requests, billing questions — those can leave a message and we'll call back. We get a lot of requests to add new cameras or card readers. Those need a full consultation, not something Clara handles.
+
+James: What about alarm test scheduling?
+
+Rachel: Good point — customers often call to schedule a test of their alarm system. That's definitely non-emergency, just take their info and schedule callback.
+
+Sarah: Let me show you how Clara handles this...
+
+[Demo interaction plays]
+
+Sarah: As you saw, Clara identified it as an active alarm, confirmed it wasn't a false alarm, got the caller's details, and transferred immediately.
+
+Rachel: That's perfect. The "are you safe right now" check is important. 
+
+Sarah: Absolutely — safety first. Shall I prepare a proposal?
+
+Rachel: Yes, please send it over.
+
+---
+END OF TRANSCRIPT

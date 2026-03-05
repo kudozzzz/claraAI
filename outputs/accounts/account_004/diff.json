@@ -1,0 +1,127 @@
+{
+  "account_id": "account_004",
+  "generated_at": "2026-03-05T09:16:14Z",
+  "memo_diff": [
+    {
+      "path": "call_transfer_rules.business_hours_transfer_number",
+      "action": "changed",
+      "old": null,
+      "new": "206-555-0134"
+    },
+    {
+      "path": "call_transfer_rules.transfer_timeout_seconds",
+      "action": "changed",
+      "old": null,
+      "new": 30
+    },
+    {
+      "path": "emergency_definition",
+      "action": "changed",
+      "old": [
+        "Active alarm activation not confirmed as false alarm",
+        "Active alarm going off"
+      ],
+      "new": [
+        "Active alarm activation not confirmed as false alarm",
+        "Active alarm going off",
+        "Fire alarm panel activation",
+        "Intruder visible on video/camera surveillance",
+        "Physical damage to security equipment suggesting break-in attempt",
+        "Fire alarm activation at a monitored site",
+        "Active alarm not confirmed as false alarm"
+      ]
+    },
+    {
+      "path": "emergency_routing_rules.primary_transfer_number",
+      "action": "changed",
+      "old": null,
+      "new": "206-555-0156"
+    },
+    {
+      "path": "emergency_routing_rules.secondary_transfer_number",
+      "action": "changed",
+      "old": null,
+      "new": "206-555-0178"
+    },
+    {
+      "path": "emergency_routing_rules.transfer_timeout_seconds",
+      "action": "changed",
+      "old": null,
+      "new": 30
+    },
+    {
+      "path": "non_emergency_routing_rules.info_to_collect",
+      "action": "changed",
+      "old": [
+        "name",
+        "callback_number",
+        "residential_or_commercial"
+      ],
+      "new": [
+        "name",
+        "callback_number",
+        "residential_or_commercial",
+        "site_address",
+        "company_name"
+      ]
+    },
+    {
+      "path": "notes",
+      "action": "changed",
+      "old": "Extracted via rule-based engine from transcript. Source: demo call.",
+      "new": "Extracted via rule-based engine from transcript. Source: demo call. | Updated from onboarding call on 2026-03-05. 0 field(s) updated."
+    },
+    {
+      "path": "pipeline",
+      "action": "changed",
+      "old": "A",
+      "new": "B"
+    },
+    {
+      "path": "questions_or_unknowns",
+      "action": "changed",
+      "old": [
+        "Emergency on-call primary phone number not specified",
+        "Transfer timeout/retry settings not specified",
+        "Business hours main transfer number not specified"
+      ],
+      "new": []
+    },
+    {
+      "path": "services_supported",
+      "action": "changed",
+      "old": [
+        "Burglar Alarm",
+        "Access Control",
+        "Video Surveillance",
+        "Security System"
+      ],
+      "new": [
+        "Burglar Alarm",
+        "Access Control",
+        "Video Surveillance",
+        "Security System",
+        "Fire Alarm"
+      ]
+    },
+    {
+      "path": "source_file",
+      "action": "changed",
+      "old": "demo_004.txt",
+      "new": "onboarding_004.txt"
+    },
+    {
+      "path": "updated_at",
+      "action": "added",
+      "old": null,
+      "new": "2026-03-05T09:16:14Z"
+    },
+    {
+      "path": "version",
+      "action": "changed",
+      "old": "v1",
+      "new": "v2"
+    }
+  ],
+  "conflicts_resolved": []
+}

@@ -1,0 +1,79 @@
+ONBOARDING CALL TRANSCRIPT — CoolBreeze HVAC Services
+Account ID: account_002
+Date: 2024-02-08
+Participants: Sarah (Clara Onboarding), Linda Reyes (CoolBreeze HVAC - Office Manager), Derek Reyes (CoolBreeze - Owner)
+
+---
+
+Sarah: Hi Linda, hi Derek — welcome to your onboarding session. I have the notes from our demo call, and we're going to lock down all the configuration details today.
+
+Linda: Perfect. Derek wanted to join to make sure he signs off on the emergency routing.
+
+Derek: Thanks for having me. This is important to get right — especially the emergency stuff.
+
+Sarah: Absolutely. Let's start at the top. Business hours — Monday through Friday 7 AM to 6 PM, and Saturday 8 AM to 2 PM, Arizona time?
+
+Linda: Yes. And Arizona doesn't do daylight saving time, so we're always on MST — America/Phoenix timezone.
+
+Sarah: Good call on the timezone. Office address — 2890 West McDowell Road, Suite 205, Phoenix, AZ 85009?
+
+Linda: Correct.
+
+Sarah: Emergency definitions from the demo: no A/C in extreme heat (over 110°F for residential, or commercial HVAC failure), and heating failure below 32°F. Derek, any additions?
+
+Derek: Yes — add: complete HVAC failure at a medical facility at any temperature. That's always an emergency. And refrigeration failure at a restaurant or food storage facility — if they're losing product, that's an emergency.
+
+Sarah: Noted. Medical facility HVAC failure and food storage refrigeration failure added.
+
+Sarah: Emergency on-call routing — what are the numbers?
+
+Derek: Primary on-call: 602-555-0213. That's my direct cell. Secondary: 602-555-0287 — that's our lead tech, Marcus.
+
+Sarah: Transfer timeout?
+
+Derek: Try primary for 25 seconds. If no answer, immediately try secondary. If secondary also fails after 25 seconds, tell the caller we'll call back within 30 minutes. Log it.
+
+Sarah: Got it. For the 30-minute callback promise — is that accurate even at 3 AM?
+
+Derek: Yes. If it's a true emergency, yes. We honor that.
+
+Sarah: Impressive commitment. During business hours — what's the main number?
+
+Linda: 602-555-0180 is our main office line. Business hours calls should just transfer there after Clara gets the basic info.
+
+Sarah: During business hours, if the main line is busy or unanswered?
+
+Linda: After 3 rings, take a message. We'll call back within 1 hour during business hours.
+
+Sarah: Non-emergency after-hours — you mentioned collecting name, number, residential vs commercial, and brief description. Anything to add?
+
+Linda: Yes — also ask for the model of the equipment if they know it. It helps us prepare before we call back.
+
+Sarah: Clara will ask for equipment model on non-emergency requests.
+
+Sarah: ServiceTitan constraints?
+
+Linda: Do not tell callers to "go to ServiceTitan" or anything like that. Internal tool only. And Clara should not try to pull up appointment info — just take messages.
+
+Sarah: Understood. What voice and tone?
+
+Linda: Warm and helpful. Our customers are often stressed (it's hot in Phoenix!) so empathetic tone is important.
+
+Derek: Yes — especially during emergencies. Clara should sound calm and reassuring.
+
+Sarah: Agent name?
+
+Linda: "Clara" is fine.
+
+Sarah: Any special scenarios we missed?
+
+Derek: One thing — we work with some property management companies that have multiple units in one building. If a property manager calls, treat it the same as commercial. And note that these clients sometimes have a maintenance coordinator as the first contact.
+
+Linda: Also — if a caller says they're a contractor or subcontractor, they should leave a message, not be treated as an emergency customer.
+
+Sarah: Got it — contractors/subcontractors are routed to message-taking, not emergency queue.
+
+Derek: Perfect. I think that covers it.
+
+---
+END OF TRANSCRIPT

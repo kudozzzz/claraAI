@@ -1,0 +1,70 @@
+{
+  "account_id": "account_003",
+  "company_name": "Apex Electrical Services",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "start": "07:00",
+    "end": "16:30",
+    "timezone": "America/Chicago"
+  },
+  "office_address": "789 North Michigan Avenue, Suite 300, Chicago, IL 60611",
+  "services_supported": [
+    "Electrical",
+    "Panel Upgrade",
+    "Generator",
+    "Power System"
+  ],
+  "emergency_definition": [
+    "Total or building-wide power failure",
+    "Sparking, burning smell, or electrical fire risk",
+    "Generator failure at critical facility (hospital, data center)",
+    "Generator failure at a critical facility"
+  ],
+  "emergency_routing_rules": {
+    "primary_transfer_number": null,
+    "secondary_transfer_number": null,
+    "transfer_timeout_seconds": null,
+    "max_attempts": 2,
+    "fallback_message": "We will have someone call you back shortly"
+  },
+  "non_emergency_routing_rules": {
+    "action": "take_message",
+    "transfer_number": null,
+    "callback_promise": "next business day",
+    "info_to_collect": [
+      "name",
+      "callback_number",
+      "brief_description",
+      "residential_or_commercial"
+    ]
+  },
+  "call_transfer_rules": {
+    "business_hours_transfer_number": null,
+    "transfer_timeout_seconds": null,
+    "max_retries": 1,
+    "busy_fallback": "take_message"
+  },
+  "integration_constraints": [
+    "ServiceTitan is internal only — Clara should not reference or access it",
+    "FieldEdge is internal only — Clara should not reference or create tickets"
+  ],
+  "after_hours_flow_summary": "After hours, Clara greets the caller, determines whether the call is an emergency, collects caller name, callback number, and address for emergencies, then attempts transfer to on-call. If transfer fails, informs caller of callback within the committed timeframe.",
+  "office_hours_flow_summary": "During business hours, Clara greets the caller, collects name and reason for call, then transfers to the main office line.",
+  "questions_or_unknowns": [
+    "Emergency on-call primary phone number not specified",
+    "Transfer timeout/retry settings not specified",
+    "Business hours main transfer number not specified"
+  ],
+  "notes": "Extracted via rule-based engine from transcript. Source: demo call.",
+  "source_file": "demo_003.txt",
+  "pipeline": "A",
+  "extracted_at": "2026-03-05T09:16:14Z",
+  "version": "v1"
+}

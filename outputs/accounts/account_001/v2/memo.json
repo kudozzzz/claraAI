@@ -1,0 +1,70 @@
+{
+  "account_id": "account_001",
+  "company_name": "ProFire Solutions",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "08:00",
+    "end": "17:00",
+    "timezone": "America/Denver"
+  },
+  "office_address": "4521 Commerce Drive, Suite 100, Denver, CO 80216",
+  "services_supported": [
+    "Sprinkler System",
+    "Fire Suppression",
+    "Fire Alarm",
+    "Inspection Scheduling",
+    "Annual Inspection",
+    "Carbon Monoxide",
+    "Co Detector",
+    "Smoke Detector"
+  ],
+  "emergency_definition": [
+    "Active sprinkler discharge",
+    "Fire suppression system discharge",
+    "Fire alarm actively going off",
+    "CO detector / carbon monoxide alarm activation",
+    "Smoke detector activation (confirmed real smoke)"
+  ],
+  "emergency_routing_rules": {
+    "primary_transfer_number": "720-555-0147",
+    "secondary_transfer_number": "720-555-0198",
+    "transfer_timeout_seconds": 30,
+    "max_attempts": 2,
+    "fallback_message": "We will have someone call you back shortly"
+  },
+  "non_emergency_routing_rules": {
+    "action": "take_message",
+    "transfer_number": null,
+    "callback_promise": "next business day",
+    "info_to_collect": [
+      "name",
+      "callback_number",
+      "site_address"
+    ]
+  },
+  "call_transfer_rules": {
+    "business_hours_transfer_number": "720-555-0100",
+    "transfer_timeout_seconds": 30,
+    "max_retries": 1,
+    "busy_fallback": "take_message"
+  },
+  "integration_constraints": [
+    "Never mention ServiceTrade to callers — internal use only",
+    "Do not create sprinkler jobs in ServiceTrade from field techs"
+  ],
+  "after_hours_flow_summary": "After hours, Clara greets the caller, determines whether the call is an emergency, collects caller name, callback number, and address for emergencies, then attempts transfer to on-call. If transfer fails, informs caller of callback within the committed timeframe.",
+  "office_hours_flow_summary": "During business hours, Clara greets the caller, collects name and reason for call, then transfers to the main office line.",
+  "questions_or_unknowns": [],
+  "notes": "Extracted via rule-based engine from transcript. Source: demo call. | Updated from onboarding call on 2026-03-05. 0 field(s) updated.",
+  "source_file": "onboarding_001.txt",
+  "pipeline": "B",
+  "extracted_at": "2026-03-05T09:16:14Z",
+  "version": "v2",
+  "updated_at": "2026-03-05T09:16:14Z"
+}

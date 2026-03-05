@@ -1,0 +1,89 @@
+ONBOARDING CALL TRANSCRIPT — ShieldGuard Security Systems
+Account ID: account_004
+Date: 2024-02-12
+Participants: Sarah (Clara Onboarding), Rachel Kim (ShieldGuard - Owner), Ben Torres (ShieldGuard - Operations Director)
+
+---
+
+Sarah: Hi Rachel, hi Ben — thanks for joining. I'm excited to finalize the configuration for ShieldGuard. Ben, I understand you're going to be managing the day-to-day operations with Clara?
+
+Ben: That's right. I oversee operations so I need to be clear on how Clara behaves.
+
+Rachel: I'll be signing off on the final configuration.
+
+Sarah: Perfect. Let's go through everything systematically. Business hours — Monday through Friday 8 AM to 5 PM Pacific Time, Saturday 9 AM to 1 PM?
+
+Rachel: Correct. America/Los_Angeles timezone.
+
+Ben: One correction — we're actually going to move to Monday through Friday only starting next month. No more Saturdays.
+
+Rachel: Yes, Ben's right. We're eliminating Saturday coverage. So just Monday through Friday, 8 AM to 5 PM Pacific.
+
+Sarah: Got it — updated to weekdays only, 8 AM to 5 PM America/Los_Angeles.
+
+Sarah: Office address — 1520 Fourth Avenue, Suite 800, Seattle, WA 98101?
+
+Rachel: That's correct.
+
+Sarah: Emergency definitions — active alarm activation (burglar or otherwise) not confirmed as false alarm, and someone seeing an intruder on video surveillance?
+
+Ben: Add: fire alarm activation at a monitored site. We monitor fire alarms too, not just burglar alarms. And if a client reports physical damage to their security equipment suggesting a break-in attempt — that's an emergency.
+
+Sarah: Fire alarm activation at monitored site, and physical security equipment damage suggesting break-in — added.
+
+Sarah: Emergency routing — you mentioned a duty manager on call.
+
+Ben: Duty manager primary: 206-555-0156. If no answer within 30 seconds, secondary contact: 206-555-0178. That's me — Ben Torres.
+
+Rachel: And if both fail — caller is told to call 911 if in immediate danger, and we'll call back within 10 minutes.
+
+Sarah: I'll make sure the 911 recommendation is included in the fallback message. That's important.
+
+Ben: Exactly. Safety of the client is paramount.
+
+Sarah: During business hours — main office line?
+
+Ben: 206-555-0120.
+
+Sarah: Zendesk constraints?
+
+Ben: Absolutely — Clara should never attempt to create or look up Zendesk tickets. Internal use only. Don't mention it to callers.
+
+Sarah: Understood. You mentioned alarm test scheduling in the demo — any specific flow for that?
+
+Ben: Alarm test requests: take name, company name (most are commercial), phone number, and preferred date/time for the test. We'll confirm. That's a common request.
+
+Sarah: Got it — alarm test scheduling gets a structured capture form. Non-emergency requests in general?
+
+Rachel: Service requests, add-ons (new cameras, card readers), billing questions — all message and callback. Don't schedule anything in real time.
+
+Sarah: What about the "are you safe right now" check you liked in the demo?
+
+Rachel: Yes — for any active alarm situation, Clara should ask "Are you safe right now?" before doing anything else. If they say no, 911 should be mentioned immediately alongside the transfer.
+
+Sarah: Clara will always ask safety status before proceeding with alarm calls.
+
+Ben: One more thing — we have enterprise clients who have their own security directors. Those callers sometimes call to give updates or check in. Clara should ask if they're an existing client, and if so, take their name and company and route to our client success manager.
+
+Sarah: Enterprise client check-in path — route to client success manager. What's that number?
+
+Ben: 206-555-0134.
+
+Sarah: Perfect. Voice and tone?
+
+Rachel: Professional. Security company — we need to sound authoritative and calm, especially for emergencies.
+
+Sarah: Agent name?
+
+Rachel: "Clara from ShieldGuard" — establish the brand association.
+
+Sarah: Any final notes?
+
+Ben: Make sure Clara never promises a specific response time that we can't keep. The 10-minute callback — that's our actual commitment. Don't promise anything faster.
+
+Sarah: Understood — only use the confirmed 10-minute SLA. No improvisation.
+
+Rachel: Perfect. Let's go live.
+
+---
+END OF TRANSCRIPT

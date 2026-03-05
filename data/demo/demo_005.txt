@@ -1,0 +1,59 @@
+DEMO CALL TRANSCRIPT — TotalFire Protection Inc.
+Account ID: account_005
+Date: 2024-01-20
+Participants: James (Clara Sales), Greg Patterson (TotalFire - VP of Operations)
+
+---
+
+James: Hi Greg, thanks for joining. I'm James from Clara Answers. We specialize in AI voice agents for fire protection and life safety companies. I've heard good things about TotalFire.
+
+Greg: Thanks James. We're one of the larger fire protection outfits in Texas. We cover Dallas, Fort Worth, Austin, and San Antonio. Fire sprinklers, suppression systems, fire alarm systems, kitchen hood systems — we do it all.
+
+James: Impressive coverage. What brought you to look at Clara?
+
+Greg: We're getting overwhelmed. Between the four markets, our after-hours volume is huge. We have an answering service but they're just taking messages — they don't triage emergencies. So critical calls sit there while our dispatch team is waiting for something to happen.
+
+James: How do you define emergencies for TotalFire?
+
+Greg: An active sprinkler discharge, a kitchen suppression discharge especially in a restaurant, a fire alarm panel trouble or activation that requires immediate response, and any water damage situation. Those are all emergencies.
+
+James: Business hours?
+
+Greg: Monday through Friday, 7:30 AM to 5:30 PM Central Time. Our main office is at 5000 Quorum Drive, Suite 700, Dallas, TX 75254. But we have regional offices in the other cities too.
+
+James: For the AI agent configuration, we'd focus on the main routing logic. After-hours — how does escalation work?
+
+Greg: We have a dispatch center that covers after-hours. The call should go to dispatch first. Dispatch decides who to send. Our dispatch line is available 24/7 — they're the ones who manage the technician on-call rotations.
+
+James: What if dispatch doesn't answer?
+
+Greg: That shouldn't happen, but as a fallback, go to our regional manager. And if that fails too, the caller gets a message that someone will call back within 10 minutes and their message is logged as priority.
+
+James: Do you use ServiceTrade?
+
+Greg: Yes, all four markets use ServiceTrade. This is important — kitchen hood suppression calls should never have a ServiceTrade job created by the field techs. That goes through the office only.
+
+James: Noted. Non-emergency after-hours?
+
+Greg: Inspection scheduling requests, equipment questions, certification requests. Take a message, we'll call back during business hours.
+
+James: And any special call types?
+
+Greg: We get calls from property managers wanting annual inspection scheduling. That's all non-emergency. Also calls from our own field techs who need dispatch — Clara shouldn't pick those up, they go straight to dispatch.
+
+James: Good point — we can set up caller ID based routing or have Clara ask if the caller is a TotalFire technician.
+
+Greg: Yeah, let's do that. Ask first. If they're one of ours, transfer to dispatch right away.
+
+James: Let me show you the demo...
+
+[Demo interaction plays]
+
+Greg: That works well. One more thing — we sometimes get calls from new commercial construction sites wanting to discuss new installs. Those need to be routed to our sales team, not dispatch.
+
+James: Perfect, we'll add a sales routing path. I'll put together a comprehensive proposal.
+
+Greg: Sounds good. We're ready to move forward quickly.
+
+---
+END OF TRANSCRIPT

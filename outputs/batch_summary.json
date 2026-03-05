@@ -1,0 +1,120 @@
+{
+  "batch_run_at": "2026-03-05T09:16:14Z",
+  "llm_mode": "rule_based",
+  "total_accounts": 5,
+  "pipeline_a_results": [
+    {
+      "account_id": "account_001",
+      "status": "success",
+      "company_name": "ProFire Solutions",
+      "memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_001/v1/memo.json",
+      "spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_001/v1/agent_spec.json",
+      "open_questions": [
+        "Emergency on-call primary phone number not specified",
+        "Transfer timeout/retry settings not specified",
+        "Business hours main transfer number not specified"
+      ]
+    },
+    {
+      "account_id": "account_002",
+      "status": "success",
+      "company_name": "CoolBreeze HVAC Services",
+      "memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_002/v1/memo.json",
+      "spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_002/v1/agent_spec.json",
+      "open_questions": [
+        "Emergency on-call primary phone number not specified",
+        "Transfer timeout/retry settings not specified",
+        "Business hours main transfer number not specified"
+      ]
+    },
+    {
+      "account_id": "account_003",
+      "status": "success",
+      "company_name": "Apex Electrical Services",
+      "memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_003/v1/memo.json",
+      "spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_003/v1/agent_spec.json",
+      "open_questions": [
+        "Emergency on-call primary phone number not specified",
+        "Transfer timeout/retry settings not specified",
+        "Business hours main transfer number not specified"
+      ]
+    },
+    {
+      "account_id": "account_004",
+      "status": "success",
+      "company_name": "ShieldGuard Security Systems",
+      "memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_004/v1/memo.json",
+      "spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_004/v1/agent_spec.json",
+      "open_questions": [
+        "Emergency on-call primary phone number not specified",
+        "Transfer timeout/retry settings not specified",
+        "Business hours main transfer number not specified"
+      ]
+    },
+    {
+      "account_id": "account_005",
+      "status": "success",
+      "company_name": "TotalFire Protection Inc.",
+      "memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_005/v1/memo.json",
+      "spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_005/v1/agent_spec.json",
+      "open_questions": [
+        "Emergency on-call primary phone number not specified",
+        "Transfer timeout/retry settings not specified",
+        "Business hours main transfer number not specified"
+      ]
+    }
+  ],
+  "pipeline_b_results": [
+    {
+      "account_id": "account_001",
+      "status": "success",
+      "company_name": "ProFire Solutions",
+      "v2_memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_001/v2/memo.json",
+      "v2_spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_001/v2/agent_spec.json",
+      "changelog_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_001/changelog.md",
+      "conflicts_resolved": 0,
+      "remaining_questions": []
+    },
+    {
+      "account_id": "account_002",
+      "status": "success",
+      "company_name": "CoolBreeze HVAC Services",
+      "v2_memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_002/v2/memo.json",
+      "v2_spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_002/v2/agent_spec.json",
+      "changelog_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_002/changelog.md",
+      "conflicts_resolved": 0,
+      "remaining_questions": []
+    },
+    {
+      "account_id": "account_003",
+      "status": "success",
+      "company_name": "Apex Electrical Services",
+      "v2_memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_003/v2/memo.json",
+      "v2_spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_003/v2/agent_spec.json",
+      "changelog_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_003/changelog.md",
+      "conflicts_resolved": 0,
+      "remaining_questions": []
+    },
+    {
+      "account_id": "account_004",
+      "status": "success",
+      "company_name": "ShieldGuard Security Systems",
+      "v2_memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_004/v2/memo.json",
+      "v2_spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_004/v2/agent_spec.json",
+      "changelog_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_004/changelog.md",
+      "conflicts_resolved": 0,
+      "remaining_questions": []
+    },
+    {
+      "account_id": "account_005",
+      "status": "success",
+      "company_name": "TotalFire Protection Inc.",
+      "v2_memo_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_005/v2/memo.json",
+      "v2_spec_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_005/v2/agent_spec.json",
+      "changelog_path": "/home/runner/work/claraAI/claraAI/outputs/accounts/account_005/changelog.md",
+      "conflicts_resolved": 1,
+      "remaining_questions": []
+    }
+  ],
+  "errors": []
+}

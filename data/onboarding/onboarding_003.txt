@@ -1,0 +1,83 @@
+ONBOARDING CALL TRANSCRIPT — Apex Electrical Services
+Account ID: account_003
+Date: 2024-02-10
+Participants: James (Clara Onboarding), Tony Marchetti (Apex Electrical - Operations Manager)
+
+---
+
+James: Hi Tony, good to reconnect. Let's finalize the Clara configuration for Apex Electrical today.
+
+Tony: Sure thing. I've got my notes from when we talked about the demo. Let me have them ready.
+
+James: Business hours — Monday through Friday, 7 AM to 4:30 PM Central Time?
+
+Tony: Yes, that's right. America/Chicago timezone.
+
+James: Office address — 789 North Michigan Avenue, Suite 300, Chicago, IL 60611?
+
+Tony: Actually that's changed. We moved. New address is 455 North Cityfront Plaza Drive, Suite 2800, Chicago, IL 60611.
+
+James: Got it, updated. Emergency definitions — power failure affecting a whole building, sparking or burning smell or electrical fire risk, generator failure at a critical facility?
+
+Tony: Yes and add: any energized equipment malfunction where there's immediate safety risk. If someone says they got a shock from touching something, that's an emergency.
+
+James: Electric shock or energized equipment malfunction with safety risk — added.
+
+James: Emergency routing — you mentioned a primary and secondary on-call?
+
+Tony: Primary: 312-555-0167. That's our senior electrician, Dave. Secondary: 312-555-0189. That's our backup, Frank.
+
+James: Transfer protocol — how long before trying secondary?
+
+Tony: Try primary for 30 seconds — two rings is fine. If no answer, try secondary. If secondary also doesn't answer in 30 seconds, tell caller someone will call back within 20 minutes.
+
+James: For critical facility generator failures — you mentioned those get top priority in the demo. How should Clara handle them differently?
+
+Tony: When Clara detects it's a generator failure at a hospital, data center, or other critical facility — mention it explicitly when transferring. Say something like "I have an urgent call regarding a critical facility generator failure."
+
+James: I'll include that as a priority transfer flag. During business hours — main line?
+
+Tony: 312-555-0140.
+
+James: If unanswered during business hours?
+
+Tony: After 4 rings, transfer to voicemail. Our voicemail is set up to send us a text immediately.
+
+James: FieldEdge constraints?
+
+Tony: Same as before — no customer interaction with FieldEdge. Internal only. Clara should not say anything like "we'll put in a work order" — we handle all of that.
+
+James: What about the contractor/bid scheduling you mentioned in the demo?
+
+Tony: If a general contractor calls about a project bid or walk-through, Clara should take their company name, contact name, number, and type of project (new construction, renovation, etc.). That goes to our estimator, not our service team.
+
+James: I'll add a bid/estimating path. Separate message category for those.
+
+James: Non-emergency after-hours — name, number, brief description of issue was the original ask?
+
+Tony: Yes. And also ask what type of facility it is — residential, commercial, or industrial. Helps us prioritize the morning callback.
+
+James: Voice and tone?
+
+Tony: Professional and efficient. Our clients are mostly commercial — they don't want fluff. Clear, direct, competent.
+
+James: Agent name?
+
+Tony: Just use "Clara" or you could say it's from Apex Electrical.
+
+James: We'll say "Hello, you've reached Apex Electrical Services. I'm Clara..."
+
+Tony: Perfect.
+
+James: Any other edge cases?
+
+Tony: If a caller is clearly angry or aggressive, Clara should not escalate. Acknowledge, empathize, take message, and route to our customer service manager who deals with complaints.
+
+James: Understood — escalation handling for irate callers routed to customer service.
+
+Tony: I think that covers everything. Send me the v2 config for review.
+
+James: Will do. Thanks Tony.
+
+---
+END OF TRANSCRIPT

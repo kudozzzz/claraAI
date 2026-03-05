@@ -1,0 +1,105 @@
+ONBOARDING CALL TRANSCRIPT — TotalFire Protection Inc.
+Account ID: account_005
+Date: 2024-02-15
+Participants: James (Clara Onboarding), Greg Patterson (TotalFire - VP Operations), Sandra Lee (TotalFire - Dispatch Supervisor)
+
+---
+
+James: Hi Greg, hi Sandra — great to have you both on the onboarding call. Sandra, I understand you run the dispatch center?
+
+Sandra: That's right. Dispatch is the heart of our operation. I want to make sure Clara feeds us correctly.
+
+Greg: Whatever Sandra says about dispatch flow is final. That's her domain.
+
+James: Perfect. Let's confirm business hours. Monday through Friday, 7:30 AM to 5:30 PM Central Time?
+
+Greg: Correct. America/Chicago timezone. Main office Dallas.
+
+James: Office address — 5000 Quorum Drive, Suite 700, Dallas, TX 75254?
+
+Greg: Yes. And we have regional offices but for Clara configuration, all after-hours calls route to the same dispatch center regardless of which city.
+
+Sandra: That's important — one dispatch number covers all four markets: Dallas, Fort Worth, Austin, San Antonio.
+
+James: Got it — centralized dispatch regardless of location. Emergency definitions — active sprinkler discharge, kitchen suppression discharge, fire alarm panel activation/trouble, water damage situation?
+
+Greg: Confirm all of those. Sandra, anything to add?
+
+Sandra: Yes — add: CO detector activation at any site. And add: suppression system discharge at a data center or server room — those are critical and get priority treatment.
+
+Greg: Right, data center suppression discharges are highest priority. We have a lot of tech company clients.
+
+James: CO activation and data center suppression discharge added. Data center suppression flagged as highest priority.
+
+James: Emergency routing — you mentioned a dispatch center available 24/7?
+
+Sandra: Yes. Main dispatch line: 972-555-0200. That's answered 24 hours.
+
+James: If dispatch doesn't answer — you mentioned this was unlikely but had a fallback?
+
+Sandra: If dispatch somehow fails to answer in 20 seconds — try again once. If still no answer, transfer to the regional manager on-call. That number rotates but the transfer number is: 972-555-0211.
+
+James: After two attempts to dispatch, then regional manager. If regional manager also fails?
+
+Sandra: Caller gets a message that someone will call within 10 minutes, and it gets logged as priority emergency. Our system sends an automated alert to all supervisors when that happens.
+
+James: Perfect. You mentioned that TotalFire technicians should be routed directly to dispatch — how should Clara handle that?
+
+Sandra: When a caller first speaks to Clara, Clara should ask: "Are you calling about a site emergency, or are you a TotalFire team member needing dispatch?" If they identify as a TotalFire tech, transfer immediately to dispatch without further questions.
+
+Greg: And for new construction or sales inquiries — those go to our sales team.
+
+James: Sales line?
+
+Greg: 972-555-0225.
+
+James: Business hours calls — during 7:30 AM to 5:30 PM, what's the main office line?
+
+Greg: 972-555-0190. Clara should collect name and reason for call, then transfer.
+
+James: If main line is busy?
+
+Sandra: Take a message. We return calls within 2 hours during business hours.
+
+James: ServiceTrade constraints — never create sprinkler jobs in ServiceTrade from field techs?
+
+Greg: Correct. And add: never create kitchen hood suppression jobs in ServiceTrade from field techs either. Both must go through the office.
+
+Sandra: And Clara should never mention ServiceTrade to customers at all.
+
+James: ServiceTrade fully internal. Never referenced to callers.
+
+James: Non-emergency after-hours — inspection scheduling, certification requests, equipment questions?
+
+Sandra: Take name, company name, phone number, type of request, which market (Dallas/Fort Worth/Austin/San Antonio). We route based on market in the morning.
+
+James: Market routing for morning callbacks — got it. Voice and tone?
+
+Greg: Professional and authoritative. We're a large operation — our brand projects competence.
+
+James: Agent name?
+
+Sandra: "Clara from TotalFire Protection."
+
+James: Any final edge cases?
+
+Greg: One thing — sometimes we get Spanish-speaking callers. Clara can't handle Spanish currently, right?
+
+James: Correct — Clara handles English only currently. Should she let Spanish-speaking callers know?
+
+Greg: Yes — if Clara detects the caller is speaking Spanish or a language she doesn't support, she should politely say she'll have a human call back, take their number if possible.
+
+Sandra: And log it as "language barrier" so we prioritize it.
+
+James: Language barrier handling added. Anything else?
+
+Greg: That covers it. Sandra, anything?
+
+Sandra: I want to make sure emergency calls never go to voicemail. If transfer fails, Clara must give a human commitment — "someone will call you within 10 minutes." No voicemail drops for emergencies.
+
+James: Explicitly confirmed — no voicemail for emergency fallback. Human commitment always.
+
+Sandra: Good. Let's do this.
+
+---
+END OF TRANSCRIPT

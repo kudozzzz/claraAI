@@ -1,0 +1,300 @@
+{
+  "name": "Clara AI — Demo-to-Agent Pipeline",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "filePath": "={{$json.transcriptPath}}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000002",
+      "name": "Read Transcript",
+      "type": "n8n-nodes-base.readBinaryFiles",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "notes": "Reads demo or onboarding transcript from disk"
+    },
+    {
+      "parameters": {
+        "command": "=cd /app && python scripts/extract_memo.py --transcript \"{{ $json.filePath }}\" --account-id \"{{ $json.accountId }}\" --output-json"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000003",
+      "name": "Extract Account Memo (Pipeline A)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [650, 200],
+      "notes": "Runs Python extraction engine on transcript. Outputs structured Account Memo JSON."
+    },
+    {
+      "parameters": {
+        "command": "=cd /app && python scripts/generate_agent_spec.py --memo-path \"{{ $json.memoPath }}\" --version v1 --output-json"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000004",
+      "name": "Generate Agent Spec v1",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [850, 200],
+      "notes": "Generates Retell agent spec from extracted memo. Version v1."
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=outputs/accounts/{{ $json.accountId }}/v1/memo.json",
+        "dataPropertyName": "memoData"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000005",
+      "name": "Store v1 Memo",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [1050, 100]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=outputs/accounts/{{ $json.accountId }}/v1/agent_spec.json",
+        "dataPropertyName": "specData"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000006",
+      "name": "Store v1 Agent Spec",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://app.asana.com/api/1.0/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "bodyContentType": "json"
+        },
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "=[Clara] v1 Agent Created — {{ $json.companyName }}"
+            },
+            {
+              "name": "notes",
+              "value": "=Account: {{ $json.accountId }}\nCompany: {{ $json.companyName }}\nStatus: v1 memo and agent spec generated.\nOpen questions: {{ $json.openQuestions }}"
+            },
+            {
+              "name": "projects",
+              "value": "={{ $env.ASANA_PROJECT_ID }}"
+            }
+          ]
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000007",
+      "name": "Create Task Tracker Item",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1050, 300],
+      "notes": "Creates a task in Asana (or alternative) tracking Pipeline A completion. Uses ASANA_API_TOKEN env var."
+    },
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-0001-0001-0001-000000000008",
+      "name": "Pipeline A Complete",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1250, 200],
+      "notes": "Pipeline A done: v1 memo + agent spec stored, task created"
+    },
+    {
+      "parameters": {
+        "command": "=cd /app && python scripts/pipeline_b.py \"{{ $json.onboardingTranscriptPath }}\" --account-id \"{{ $json.accountId }}\""
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000009",
+      "name": "Apply Onboarding Update (Pipeline B)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [650, 400],
+      "notes": "Runs Pipeline B: merges onboarding data into v1, generates v2 memo + agent spec + changelog"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://app.asana.com/api/1.0/tasks/{{ $json.existingTaskId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "bodyContentType": "json"
+        },
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "name",
+              "value": "=[Clara] v2 Agent Ready — {{ $json.companyName }}"
+            },
+            {
+              "name": "notes",
+              "value": "=Account: {{ $json.accountId }}\nv2 agent spec generated after onboarding.\nConflicts resolved: {{ $json.conflictsCount }}\nChangelog: outputs/accounts/{{ $json.accountId }}/changelog.md"
+            }
+          ]
+        }
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000010",
+      "name": "Update Task Tracker (v2)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 400],
+      "notes": "Updates the existing task to reflect v2 completion"
+    },
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-0001-0001-0001-000000000011",
+      "name": "Pipeline B Complete",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1050, 400],
+      "notes": "Pipeline B done: v2 memo + agent spec + changelog stored"
+    },
+    {
+      "parameters": {
+        "command": "=cd /app && python scripts/batch_run.py --demo-dir data/demo --onboarding-dir data/onboarding"
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000012",
+      "name": "Batch Run All Accounts",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [650, 550],
+      "notes": "Runs both pipelines across all 10 files in one batch. Alternative to running per-account."
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Read Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Transcript": {
+      "main": [
+        [
+          {
+            "node": "Extract Account Memo (Pipeline A)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Account Memo (Pipeline A)": {
+      "main": [
+        [
+          {
+            "node": "Generate Agent Spec v1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Agent Spec v1": {
+      "main": [
+        [
+          {
+            "node": "Store v1 Memo",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Store v1 Agent Spec",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Task Tracker Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store v1 Memo": {
+      "main": [
+        [
+          {
+            "node": "Pipeline A Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store v1 Agent Spec": {
+      "main": [
+        [
+          {
+            "node": "Pipeline A Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Onboarding Update (Pipeline B)": {
+      "main": [
+        [
+          {
+            "node": "Update Task Tracker (v2)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Task Tracker (v2)": {
+      "main": [
+        [
+          {
+            "node": "Pipeline B Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "pinData": {},
+  "meta": {
+    "instanceId": "clara-ai-pipeline",
+    "templateId": "clara-demo-to-agent"
+  },
+  "_comment": {
+    "description": "Clara AI Automation Pipeline — Demo Call to Retell Agent Draft to Onboarding Update",
+    "pipelines": {
+      "pipeline_a": "Start → Read Transcript → Extract Account Memo → Generate Agent Spec v1 → Store → Create Task",
+      "pipeline_b": "Apply Onboarding Update → Update Task",
+      "batch": "Batch Run All Accounts (runs both pipelines on all 10 files)"
+    },
+    "environment_variables": {
+      "GROQ_API_KEY": "Optional — Groq API key for LLM extraction (free tier)",
+      "OLLAMA_URL": "Optional — local Ollama URL (e.g. http://localhost:11434)",
+      "OLLAMA_MODEL": "Optional — Ollama model name (default: llama3)",
+      "LLM_BACKEND": "Optional — force backend: groq | ollama | rule_based",
+      "ASANA_PROJECT_ID": "Optional — Asana project GID for task creation",
+      "ASANA_API_TOKEN": "Optional — Asana personal access token"
+    },
+    "zero_cost_note": "This workflow runs entirely for free. No paid APIs required. LLM step uses Groq free tier or local Ollama. Asana task creation is optional."
+  }
+}

@@ -1,0 +1,81 @@
+ONBOARDING CALL TRANSCRIPT — ProFire Solutions
+Account ID: account_001
+Date: 2024-02-05
+Participants: James (Clara Onboarding), Mike Thompson (ProFire - Owner), Carol Davis (ProFire - Office Manager)
+
+---
+
+James: Hi Mike, hi Carol — thanks for joining our onboarding call. We're going to nail down all the configuration details for your Clara agent today. I have your demo notes here, so let's confirm and fill in any gaps.
+
+Mike: Sounds good. Carol handles the day-to-day so she'll have most of the specifics.
+
+Carol: Happy to help. We want to get this right.
+
+James: Great. Let's start with business hours. My notes show Monday through Friday, 8 AM to 5 PM Mountain Time — is that still accurate?
+
+Carol: Yes, that's correct. 8 AM to 5 PM, Mountain Time. We don't work weekends. Our time zone is Mountain Standard — we don't observe daylight saving since Colorado does but we track MST.
+
+James: Actually Colorado does observe daylight saving, so you'd be on MDT in summer and MST in winter. We'll set it to America/Denver timezone.
+
+Carol: Oh right, yes. America/Denver is correct.
+
+James: Office address — 4521 Commerce Drive, Suite 100, Denver, CO 80216?
+
+Carol: Correct. That's our main office.
+
+James: Emergency definitions. Active sprinkler discharge, fire suppression discharge, active fire alarm — those were from the demo. Any additions?
+
+Mike: Yes — add CO detector activations. Carbon monoxide alarms are emergencies for us.
+
+Carol: And add smoke detector activations if the customer says it's real smoke, not just a battery chirp.
+
+James: Got it. CO detector activation and confirmed smoke detector activation added.
+
+James: For emergency routing — who is the on-call and what's the number?
+
+Carol: Our on-call rotates weekly. The number callers should be transferred to is 720-555-0147. That's our on-call dispatch line — it always routes to whoever is on call that week.
+
+James: And if that doesn't answer?
+
+Carol: After 4 rings or 30 seconds, try the backup: 720-555-0198. If that also fails, tell the caller someone will call back within 15 minutes. Log it as priority.
+
+James: Got it. Transfer timeout — 30 seconds, one retry on backup, then message and log.
+
+Carol: Exactly.
+
+James: For non-emergency after-hours — inspection scheduling, quotes, general questions — take name, number, brief message, call back next business day?
+
+Mike: Yes. And add this: if someone calls about a recall on equipment, that's also non-emergency but flag it with a special note so we prioritize it.
+
+James: Will do — equipment recall inquiries flagged as high-priority non-emergency.
+
+James: You mentioned ServiceTrade — any specific constraints?
+
+Carol: Yes. Field techs should never create sprinkler jobs in ServiceTrade themselves. That must go through the office. Clara should never tell callers "we'll create a job in ServiceTrade" or anything like that.
+
+James: Clara will not mention ServiceTrade to callers. Confirmed.
+
+James: Business hours call flow — when someone calls during business hours, Clara should greet, get the reason for the call, and then?
+
+Carol: During business hours, transfer directly to our main office line: 720-555-0100. If that's busy, take a message and we'll call back within 2 hours.
+
+James: Perfect. Any integration with websites or form submissions?
+
+Carol: Not yet. Maybe in phase 2.
+
+James: What voice style do you prefer? Professional? Friendly? Formal?
+
+Mike: Friendly but professional. We want callers to feel taken care of.
+
+James: Great. And the agent's name?
+
+Carol: Let's call it "Clara" — keep it simple.
+
+James: Excellent. I think we have everything. I'll generate your v2 agent configuration and send it for review. Any final notes?
+
+Mike: Just make sure the emergency handling is tight. Those calls are life-safety situations.
+
+James: Absolutely understood. Thank you both.
+
+---
+END OF TRANSCRIPT

@@ -1,0 +1,53 @@
+DEMO CALL TRANSCRIPT — ProFire Solutions
+Account ID: account_001
+Date: 2024-01-10
+Participants: Sarah (Clara Sales), Mike Thompson (ProFire Solutions - Owner)
+
+---
+
+Sarah: Hi Mike, thanks for joining today's demo call. I'm Sarah from Clara Answers. We help service trade businesses handle inbound calls with an AI voice agent. How are you doing today?
+
+Mike: Good, good. Thanks for reaching out. We've been having a real problem with after-hours calls. Our guys are getting woken up at 2 AM for things that aren't really emergencies.
+
+Sarah: That's exactly the problem we solve. Can you tell me a bit about your business first?
+
+Mike: Sure. We're ProFire Solutions, we do fire protection work — sprinkler systems, fire suppression, alarm monitoring. We're based out of Denver, Colorado. Got about 30 field techs.
+
+Sarah: Great. And when do you typically get these after-hours calls?
+
+Mike: Mostly nights and weekends. We're open Monday through Friday, 8 AM to 5 PM Mountain Time. But after hours, our on-call tech gets bombarded. Some calls are genuine sprinkler activations or fire suppression triggers, but a lot of people call about stuff like scheduling an inspection or asking for a quote.
+
+Sarah: So you want the AI to differentiate between true emergencies and routine requests?
+
+Mike: Exactly. A true emergency for us is an active sprinkler discharge, a fire suppression system discharge, or a fire alarm that's actively going off. Those get routed to our on-call immediately. Everything else can wait.
+
+Sarah: Got it. And who's the on-call person they'd be transferred to?
+
+Mike: We have a rotating on-call schedule. Whoever is on-call that week gets the call. There's usually a primary and a backup.
+
+Sarah: Makes sense. Let me show you how Clara handles this...
+
+[Demo interaction plays]
+
+Sarah: So as you saw, Clara greeted the caller, asked why they were calling, determined it was an emergency, collected their name, callback number, and site address, then transferred to your on-call.
+
+Mike: That's impressive. What if the on-call doesn't pick up?
+
+Sarah: Good question — Clara will attempt the transfer, and if it fails, it will tell the caller that someone will call them back within 15 minutes and log the message.
+
+Mike: That works. We'd need Clara to know our office address too — we're at 4521 Commerce Drive, Suite 100, Denver, CO 80216.
+
+Sarah: Noted. We'd also need to know what systems you use. Do you use ServiceTrade?
+
+Mike: Yes, we do. But our office manager handles all the ServiceTrade entries — the field techs shouldn't be creating jobs themselves.
+
+Sarah: Perfect, we'll make sure Clara never instructs callers about that. Is there anything else you want us to capture at onboarding?
+
+Mike: Make sure Clara knows we also do annual inspection scheduling. Those are non-emergency. Caller can leave a message after hours and we'll call back next business day.
+
+Sarah: Absolutely. This is great. I think Clara would be a perfect fit for ProFire. Let me send over our proposal.
+
+Mike: Sounds good. Thanks Sarah.
+
+---
+END OF TRANSCRIPT

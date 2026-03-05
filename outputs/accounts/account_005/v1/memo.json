@@ -1,0 +1,71 @@
+{
+  "account_id": "account_005",
+  "company_name": "TotalFire Protection Inc.",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "07:30",
+    "end": "17:30",
+    "timezone": "America/Chicago"
+  },
+  "office_address": "5000 Quorum Drive, Suite 700, Dallas, TX 75254",
+  "services_supported": [
+    "Fire Sprinkler",
+    "Fire Alarm",
+    "Inspection Scheduling",
+    "Annual Inspection",
+    "Certification",
+    "Kitchen Hood",
+    "Hood Suppression"
+  ],
+  "emergency_definition": [
+    "Active sprinkler discharge",
+    "Fire alarm panel trouble signal",
+    "Kitchen hood/suppression discharge or activation",
+    "Active water damage"
+  ],
+  "emergency_routing_rules": {
+    "primary_transfer_number": null,
+    "secondary_transfer_number": null,
+    "transfer_timeout_seconds": null,
+    "max_attempts": 2,
+    "fallback_message": "We will have someone call you back shortly"
+  },
+  "non_emergency_routing_rules": {
+    "action": "take_message",
+    "transfer_number": null,
+    "callback_promise": "next business day",
+    "info_to_collect": [
+      "name",
+      "callback_number",
+      "residential_or_commercial"
+    ]
+  },
+  "call_transfer_rules": {
+    "business_hours_transfer_number": null,
+    "transfer_timeout_seconds": null,
+    "max_retries": 1,
+    "busy_fallback": "take_message"
+  },
+  "integration_constraints": [
+    "Never mention ServiceTrade to callers — internal use only",
+    "Do not create kitchen hood suppression jobs in ServiceTrade from field techs"
+  ],
+  "after_hours_flow_summary": "After hours, Clara greets the caller, determines whether the call is an emergency, collects caller name, callback number, and address for emergencies, then attempts transfer to on-call. If transfer fails, informs caller of callback within the committed timeframe.",
+  "office_hours_flow_summary": "During business hours, Clara greets the caller, collects name and reason for call, then transfers to the main office line.",
+  "questions_or_unknowns": [
+    "Emergency on-call primary phone number not specified",
+    "Transfer timeout/retry settings not specified",
+    "Business hours main transfer number not specified"
+  ],
+  "notes": "Extracted via rule-based engine from transcript. Source: demo call.",
+  "source_file": "demo_005.txt",
+  "pipeline": "A",
+  "extracted_at": "2026-03-05T09:16:14Z",
+  "version": "v1"
+}

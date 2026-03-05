@@ -1,0 +1,51 @@
+DEMO CALL TRANSCRIPT — CoolBreeze HVAC Services
+Account ID: account_002
+Date: 2024-01-12
+Participants: Sarah (Clara Sales), Linda Reyes (CoolBreeze HVAC - Office Manager)
+
+---
+
+Sarah: Hi Linda, thanks for joining. I'm Sarah from Clara Answers. We build AI voice agents for service trade businesses. I understand you were referred to us by a colleague?
+
+Linda: Yes, hi Sarah. My friend over at Apex mentioned you guys. We're an HVAC company — cooling, heating, ventilation. We deal with a lot of after-hours calls, especially in summer when someone's A/C dies.
+
+Sarah: That sounds challenging. Tell me about your current setup.
+
+Linda: Right now we have an answering service, but they're expensive and sometimes they misclassify calls. We're CoolBreeze HVAC out of Phoenix, Arizona. We work Monday through Friday, 7 AM to 6 PM and Saturdays 8 AM to 2 PM, Arizona time.
+
+Sarah: So you're open on Saturdays — that's a bit different. What happens with Sunday calls or calls after 6 PM on weekdays?
+
+Linda: Those go to our after-hours on-call. We have two technicians on rotation. Honestly, an emergency for us is when it's over 110 degrees outside and a senior citizen or family with small kids has no A/C. Or a commercial facility where the whole HVAC is down.
+
+Sarah: Good distinction. So residential no-A/C in extreme heat and commercial HVAC failures are emergencies?
+
+Linda: Exactly. Heating emergencies in winter too — if someone's heat is completely out below 32 degrees. Routine maintenance requests, filter changes, quote requests — those are absolutely not emergencies.
+
+Sarah: Makes sense. What's your office address?
+
+Linda: 2890 West McDowell Road, Suite 205, Phoenix, AZ 85009.
+
+Sarah: And are there any software systems Clara should be aware of?
+
+Linda: We use ServiceTitan for scheduling. Customers sometimes ask about their appointment. Clara shouldn't try to reschedule or cancel — just take a message.
+
+Sarah: Understood. What about collecting caller information?
+
+Linda: For after-hours emergencies, we need: name, callback number, service address, and whether it's residential or commercial. For non-emergencies after hours, just name and number and we'll call back during business hours.
+
+Sarah: Perfect. Let me demonstrate the call flow...
+
+[Demo interaction plays]
+
+Linda: That's much better than our answering service. The caller felt heard and didn't get bounced around.
+
+Sarah: Great feedback. We also log every call so you have a record.
+
+Linda: One thing — our on-call tech sometimes doesn't answer. What's the fallback?
+
+Sarah: Clara will attempt the call, if unanswered it tells the caller someone will call back within 30 minutes and logs a priority message.
+
+Linda: I like that. Send me the paperwork.
+
+---
+END OF TRANSCRIPT
