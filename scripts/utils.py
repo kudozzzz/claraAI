@@ -27,7 +27,7 @@ def get_logger(name: str) -> logging.Logger:
 
 def read_transcript(path: str) -> str:
     """Read a transcript file and return its text content."""
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
         return f.read()
 
 
