@@ -91,9 +91,8 @@ EMERGENCY DEFINITIONS — these situations require IMMEDIATE routing:
 INTEGRATION / TOOL CONSTRAINTS:
 {constraint_text}
 
-=====================================
 BUSINESS HOURS CALL FLOW
-=====================================
+
 When the call is received during business hours ({start}–{end}, {days_str}):
 
 1. GREET:
@@ -119,9 +118,9 @@ When the call is received during business hours ({start}–{end}, {days_str}):
    "Is there anything else I can help you with?"
    If no: "Thank you for calling {company}. Have a great day!"
 
-=====================================
+
 AFTER-HOURS CALL FLOW
-=====================================
+
 When the call is received outside of business hours:
 
 1. GREET:
@@ -163,9 +162,9 @@ When the call is received outside of business hours:
    "Is there anything else I can help you with?"
    If no: "Thank you for calling {company}. Someone will be in touch soon."
 
-=====================================
+
 EMERGENCY CALL TRANSFER PROTOCOL
-=====================================
+
 - Attempt transfer to primary on-call: {primary_num}
   Timeout: {timeout} seconds, max {max_attempts} attempts
 {secondary_transfer_block}
@@ -185,9 +184,9 @@ NEVER:
     return prompt.strip()
 
 
-# ---------------------------------------------------------------------------
+
 # Agent spec generator
-# ---------------------------------------------------------------------------
+
 
 def generate_agent_spec(memo: dict, version: str = "v1") -> dict:
     """
