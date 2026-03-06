@@ -1,300 +1,641 @@
 {
-  "name": "Clara AI — Demo-to-Agent Pipeline",
+  "name": "Clara Answers - Full Automation Pipeline",
   "nodes": [
+
     {
-      "parameters": {},
-      "id": "a1b2c3d4-0001-0001-0001-000000000001",
-      "name": "Start",
-      "type": "n8n-nodes-base.start",
+      "id": "trigger-demo",
+      "name": "Watch Demo Input Folder",
+      "type": "n8n-nodes-base.localFileTrigger",
       "typeVersion": 1,
-      "position": [250, 300]
-    },
-    {
+      "position": [0, 0],
       "parameters": {
-        "operation": "read",
-        "filePath": "={{$json.transcriptPath}}",
+        "path": "={{ $env.INPUT_DEMO_DIR }}",
+        "events": ["add"],
         "options": {}
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000002",
-      "name": "Read Transcript",
-      "type": "n8n-nodes-base.readBinaryFiles",
-      "typeVersion": 1,
-      "position": [450, 300],
-      "notes": "Reads demo or onboarding transcript from disk"
+      }
     },
+
     {
+      "id": "assign-account-id-demo",
+      "name": "Assign Account ID (Demo)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 0],
       "parameters": {
-        "command": "=cd /app && python scripts/extract_memo.py --transcript \"{{ $json.filePath }}\" --account-id \"{{ $json.accountId }}\" --output-json"
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000003",
-      "name": "Extract Account Memo (Pipeline A)",
+        "jsCode": "const fileName = items[0].json.name || items[0].json.file_name || '';\nconst baseName = fileName.replace(/\\.[^/.]+$/, '');\nconst accountId = baseName.toLowerCase().replace(/[^a-z0-9]/g, '_');\nreturn [{ json: { ...items[0].json, account_id: accountId, file_name: fileName, pipeline: 'demo' } }];"
+      }
+    },
+
+    {
+      "id": "route-by-filetype-demo",
+      "name": "Route by File Type (Demo)",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [440, 0],
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.file_name.split('.').pop().toLowerCase() }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "txt",
+              "output": 0
+            },
+            {
+              "value2": "json",
+              "output": 0
+            },
+            {
+              "value2": "mp3",
+              "output": 1
+            },
+            {
+              "value2": "wav",
+              "output": 1
+            }
+          ]
+        },
+        "fallbackOutput": 0
+      }
+    },
+
+    {
+      "id": "read-transcript-demo",
+      "name": "Read Transcript Text (Demo)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, -120],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst filePath = items[0].json.path || `/data/input/demo/${items[0].json.file_name}`;\nlet transcript_text = '';\ntry {\n  transcript_text = fs.readFileSync(filePath, 'utf8');\n} catch(e) {\n  transcript_text = `ERROR_READING_FILE: ${e.message}`;\n}\nreturn [{ json: { ...items[0].json, transcript_text } }];"
+      }
+    },
+
+    {
+      "id": "transcribe-audio-demo",
+      "name": "Transcribe Audio via Whisper (Demo)",
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
-      "position": [650, 200],
-      "notes": "Runs Python extraction engine on transcript. Outputs structured Account Memo JSON."
-    },
-    {
+      "position": [660, 120],
       "parameters": {
-        "command": "=cd /app && python scripts/generate_agent_spec.py --memo-path \"{{ $json.memoPath }}\" --version v1 --output-json"
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000004",
-      "name": "Generate Agent Spec v1",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [850, 200],
-      "notes": "Generates Retell agent spec from extracted memo. Version v1."
+        "command": "whisper \"{{ $json.path }}\" --model base --output_format txt --output_dir /data/transcripts/ && cat /data/transcripts/{{ $json.account_id }}.txt"
+      }
     },
+
     {
+      "id": "normalize-whisper-output-demo",
+      "name": "Normalize Whisper Output (Demo)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 120],
       "parameters": {
-        "operation": "write",
-        "fileName": "=outputs/accounts/{{ $json.accountId }}/v1/memo.json",
-        "dataPropertyName": "memoData"
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000005",
-      "name": "Store v1 Memo",
-      "type": "n8n-nodes-base.writeBinaryFile",
-      "typeVersion": 1,
-      "position": [1050, 100]
+        "jsCode": "const transcript_text = items[0].json.stdout || '';\nreturn [{ json: { ...items[0].json, transcript_text } }];"
+      }
     },
+
     {
+      "id": "merge-transcript-demo",
+      "name": "Merge Transcript Paths (Demo)",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [1100, 0],
       "parameters": {
-        "operation": "write",
-        "fileName": "=outputs/accounts/{{ $json.accountId }}/v1/agent_spec.json",
-        "dataPropertyName": "specData"
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000006",
-      "name": "Store v1 Agent Spec",
-      "type": "n8n-nodes-base.writeBinaryFile",
-      "typeVersion": 1,
-      "position": [1050, 200]
+        "mode": "passThrough",
+        "output": "input1"
+      }
     },
+
     {
+      "id": "llm-extract-memo-demo",
+      "name": "LLM Extract Account Memo (Demo)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1320, 0],
       "parameters": {
         "method": "POST",
-        "url": "=https://app.asana.com/api/1.0/tasks",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "options": {
-          "bodyContentType": "json"
+        "url": "={{ $env.OLLAMA_URL }}/api/generate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
         },
-        "bodyParametersUi": {
-          "parameter": [
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"{{ $env.OLLAMA_MODEL }}\",\n  \"stream\": false,\n  \"prompt\": \"You are a precise data extraction assistant. You will be given a transcript from a demo sales call for Clara Answers, an AI voice agent for service trade businesses.\\n\\nExtract the following fields into a valid JSON object. If a field is not mentioned or cannot be inferred, leave it as null or an empty array. Do NOT invent or hallucinate any values. If data is ambiguous or missing, add it to questions_or_unknowns.\\n\\nReturn ONLY a valid JSON object with no explanation or markdown formatting.\\n\\nRequired fields:\\n- account_id: \\\"{{ $json.account_id }}\\\"\\n- company_name\\n- business_hours: { days: [], start: \\\"\\\", end: \\\"\\\", timezone: \\\"\\\" }\\n- office_address\\n- services_supported: []\\n- emergency_definition: []\\n- emergency_routing_rules: { contacts: [], order: [], fallback: \\\"\\\" }\\n- non_emergency_routing_rules\\n- call_transfer_rules: { timeout_seconds: null, retries: null, message_on_fail: \\\"\\\" }\\n- integration_constraints: []\\n- after_hours_flow_summary\\n- office_hours_flow_summary\\n- questions_or_unknowns: []\\n- notes\\n\\nTranscript:\\n{{ $json.transcript_text }}\"\n}"
+      }
+    },
+
+    {
+      "id": "parse-memo-demo",
+      "name": "Parse Account Memo JSON (Demo)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1540, 0],
+      "parameters": {
+        "jsCode": "let raw = '';\ntry {\n  const body = items[0].json;\n  raw = body.response || body.message?.content || JSON.stringify(body);\n} catch(e) { raw = ''; }\nraw = raw.replace(/```json|```/g, '').trim();\nlet memo;\ntry {\n  memo = JSON.parse(raw);\n} catch(e) {\n  return [{ json: { parse_error: true, raw, account_id: items[0].json.account_id, transcript_text: items[0].json.transcript_text } }];\n}\nmemo.account_id = items[0].json.account_id;\nmemo._version = 'v1';\nmemo._source = 'demo';\nmemo._created_at = new Date().toISOString();\nreturn [{ json: { memo, account_id: items[0].json.account_id, transcript_text: items[0].json.transcript_text } }];"
+      }
+    },
+
+    {
+      "id": "validate-memo-demo",
+      "name": "Validate Memo Fields (Demo)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1760, 0],
+      "parameters": {
+        "jsCode": "const memo = items[0].json.memo;\nconst required = ['company_name', 'business_hours', 'emergency_routing_rules'];\nconst missing = required.filter(f => !memo[f] || (typeof memo[f] === 'object' && !Array.isArray(memo[f]) && Object.keys(memo[f]).length === 0));\nif (missing.length > 0) {\n  memo.questions_or_unknowns = memo.questions_or_unknowns || [];\n  missing.forEach(f => {\n    if (!memo.questions_or_unknowns.includes(`Missing: ${f}`)) {\n      memo.questions_or_unknowns.push(`Missing: ${f}`);\n    }\n  });\n  memo._validation_warnings = missing;\n}\nreturn [{ json: { ...items[0].json, memo } }];"
+      }
+    },
+
+    {
+      "id": "llm-generate-spec-v1",
+      "name": "LLM Generate Agent Spec v1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1980, 0],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/generate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"{{ $env.OLLAMA_MODEL }}\",\n  \"stream\": false,\n  \"prompt\": \"You are an expert AI voice agent configurator for Clara Answers. Given the account memo below, generate a Retell Agent Spec as a valid JSON object.\\n\\nThe spec must include:\\n- agent_name: '<company_name> Clara Agent'\\n- version: 'v1'\\n- voice_style: 'professional, calm, empathetic'\\n- system_prompt: a fully written conversational prompt (see rules below)\\n- key_variables: { timezone, business_hours_start, business_hours_end, business_days, office_address, emergency_contacts }\\n- tool_invocation_placeholders: list of internal actions (never mention these to caller)\\n- call_transfer_protocol: { attempt_transfer_after_collecting: [], timeout_seconds, what_to_say_before_transfer }\\n- fallback_protocol: { message_if_transfer_fails, next_steps }\\n\\nSYSTEM PROMPT RULES (strictly follow):\\nBusiness hours flow must include:\\n1. Greeting with company name\\n2. Ask purpose of call\\n3. Collect caller name and callback number\\n4. Transfer or route based on call type\\n5. If transfer fails: apologize, confirm details were captured, assure follow-up\\n6. Ask 'Is there anything else I can help you with?'\\n7. Close politely\\n\\nAfter-hours flow must include:\\n1. Greeting with company name and after-hours acknowledgment\\n2. Ask purpose of call\\n3. Confirm if it is an emergency\\n4. If emergency: immediately collect name, phone number, and address, then attempt transfer to on-call\\n5. If transfer fails: apologize, assure someone will call back within 15 minutes\\n6. If non-emergency: collect details, confirm follow-up during next business hours\\n7. Ask 'Is there anything else?'\\n8. Close\\n\\nRULES:\\n- Never mention function calls, tools, or system actions to the caller\\n- Never ask more questions than needed for routing\\n- Do not hallucinate routing numbers or contacts not present in the memo\\n\\nAccount Memo:\\n{{ JSON.stringify($json.memo) }}\\n\\nReturn ONLY a valid JSON object with no explanation.\"\n}"
+      }
+    },
+
+    {
+      "id": "parse-agent-spec-v1",
+      "name": "Parse Agent Spec v1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2200, 0],
+      "parameters": {
+        "jsCode": "let raw = '';\ntry {\n  const body = items[0].json;\n  raw = body.response || body.message?.content || JSON.stringify(body);\n} catch(e) { raw = ''; }\nraw = raw.replace(/```json|```/g, '').trim();\nlet spec;\ntry {\n  spec = JSON.parse(raw);\n} catch(e) {\n  spec = { parse_error: true, raw };\n}\nspec.version = 'v1';\nspec.account_id = items[0].json.account_id;\nspec._generated_at = new Date().toISOString();\nreturn [{ json: { ...items[0].json, agent_spec: spec } }];"
+      }
+    },
+
+    {
+      "id": "write-memo-v1",
+      "name": "Write Memo v1 to Disk",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2420, -80],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst accountId = items[0].json.account_id;\nconst dir = `/data/outputs/accounts/${accountId}/v1`;\nfs.mkdirSync(dir, { recursive: true });\nfs.writeFileSync(`${dir}/memo.json`, JSON.stringify(items[0].json.memo, null, 2));\nreturn [{ json: { ...items[0].json, memo_path: `${dir}/memo.json` } }];"
+      }
+    },
+
+    {
+      "id": "write-spec-v1",
+      "name": "Write Agent Spec v1 to Disk",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2420, 80],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst accountId = items[0].json.account_id;\nconst dir = `/data/outputs/accounts/${accountId}/v1`;\nfs.mkdirSync(dir, { recursive: true });\nfs.writeFileSync(`${dir}/agent_spec.json`, JSON.stringify(items[0].json.agent_spec, null, 2));\nreturn [{ json: { ...items[0].json, spec_path: `${dir}/agent_spec.json` } }];"
+      }
+    },
+
+    {
+      "id": "create-tracker-item",
+      "name": "Create Task Tracker Item (Google Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [2640, 0],
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.TRACKER_SHEET_ID }}",
+        "sheetName": "Pipeline Tracker",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "account_id": "={{ $json.account_id }}",
+            "company_name": "={{ $json.memo.company_name }}",
+            "stage": "demo_processed",
+            "v1_created_at": "={{ $json.memo._created_at }}",
+            "warnings": "={{ JSON.stringify($json.memo._validation_warnings || []) }}",
+            "status": "pending_onboarding"
+          }
+        }
+      }
+    },
+
+    {
+      "id": "log-pipeline-a",
+      "name": "Log Pipeline A Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2860, 0],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst logEntry = {\n  timestamp: new Date().toISOString(),\n  account_id: items[0].json.account_id,\n  pipeline: 'A',\n  status: items[0].json.parse_error ? 'error' : 'success',\n  warnings: items[0].json.memo?._validation_warnings || []\n};\nfs.mkdirSync('/data/logs', { recursive: true });\nfs.appendFileSync('/data/logs/pipeline_a.jsonl', JSON.stringify(logEntry) + '\\n');\nreturn [{ json: logEntry }];"
+      }
+    },
+
+    {
+      "id": "trigger-onboarding",
+      "name": "Watch Onboarding Input Folder",
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [0, 600],
+      "parameters": {
+        "path": "={{ $env.INPUT_ONBOARDING_DIR }}",
+        "events": ["add"],
+        "options": {}
+      }
+    },
+
+    {
+      "id": "assign-account-id-onboarding",
+      "name": "Assign Account ID (Onboarding)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 600],
+      "parameters": {
+        "jsCode": "const fileName = items[0].json.name || items[0].json.file_name || '';\nconst baseName = fileName.replace(/_onboarding\\.[^/.]+$/, '').replace(/\\.[^/.]+$/, '');\nconst accountId = baseName.toLowerCase().replace(/[^a-z0-9]/g, '_');\nreturn [{ json: { ...items[0].json, account_id: accountId, file_name: fileName, pipeline: 'onboarding' } }];"
+      }
+    },
+
+    {
+      "id": "route-by-filetype-onboarding",
+      "name": "Route by File Type (Onboarding)",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [440, 600],
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.file_name.split('.').pop().toLowerCase() }}",
+        "rules": {
+          "rules": [
+            { "value2": "txt", "output": 0 },
+            { "value2": "json", "output": 0 },
+            { "value2": "mp3", "output": 1 },
+            { "value2": "wav", "output": 1 }
+          ]
+        },
+        "fallbackOutput": 0
+      }
+    },
+
+    {
+      "id": "read-transcript-onboarding",
+      "name": "Read Transcript Text (Onboarding)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 480],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst filePath = items[0].json.path || `/data/input/onboarding/${items[0].json.file_name}`;\nlet transcript_text = '';\ntry {\n  transcript_text = fs.readFileSync(filePath, 'utf8');\n} catch(e) {\n  transcript_text = `ERROR_READING_FILE: ${e.message}`;\n}\nreturn [{ json: { ...items[0].json, transcript_text } }];"
+      }
+    },
+
+    {
+      "id": "transcribe-audio-onboarding",
+      "name": "Transcribe Audio via Whisper (Onboarding)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [660, 720],
+      "parameters": {
+        "command": "whisper \"{{ $json.path }}\" --model base --output_format txt --output_dir /data/transcripts/ && cat /data/transcripts/{{ $json.account_id }}_onboarding.txt"
+      }
+    },
+
+    {
+      "id": "normalize-whisper-onboarding",
+      "name": "Normalize Whisper Output (Onboarding)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 720],
+      "parameters": {
+        "jsCode": "const transcript_text = items[0].json.stdout || '';\nreturn [{ json: { ...items[0].json, transcript_text } }];"
+      }
+    },
+
+    {
+      "id": "merge-transcript-onboarding",
+      "name": "Merge Transcript Paths (Onboarding)",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [1100, 600],
+      "parameters": {
+        "mode": "passThrough",
+        "output": "input1"
+      }
+    },
+
+    {
+      "id": "load-v1-memo",
+      "name": "Load Existing v1 Memo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1320, 600],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst accountId = items[0].json.account_id;\nconst memoPath = `/data/outputs/accounts/${accountId}/v1/memo.json`;\nlet v1_memo = null;\ntry {\n  v1_memo = JSON.parse(fs.readFileSync(memoPath, 'utf8'));\n} catch(e) {\n  return [{ json: { ...items[0].json, load_error: true, error_message: `No v1 memo found for account_id '${accountId}'. Run Pipeline A first.` } }];\n}\nreturn [{ json: { ...items[0].json, v1_memo } }];"
+      }
+    },
+
+    {
+      "id": "check-v1-exists",
+      "name": "Check v1 Memo Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1540, 600],
+      "parameters": {
+        "conditions": {
+          "boolean": [
             {
-              "name": "name",
-              "value": "=[Clara] v1 Agent Created — {{ $json.companyName }}"
-            },
-            {
-              "name": "notes",
-              "value": "=Account: {{ $json.accountId }}\nCompany: {{ $json.companyName }}\nStatus: v1 memo and agent spec generated.\nOpen questions: {{ $json.openQuestions }}"
-            },
-            {
-              "name": "projects",
-              "value": "={{ $env.ASANA_PROJECT_ID }}"
+              "value1": "={{ $json.load_error }}",
+              "value2": true
             }
           ]
         }
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000007",
-      "name": "Create Task Tracker Item",
+      }
+    },
+
+    {
+      "id": "halt-missing-v1",
+      "name": "Halt - Missing v1 Memo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1760, 480],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst logEntry = {\n  timestamp: new Date().toISOString(),\n  account_id: items[0].json.account_id,\n  pipeline: 'B',\n  status: 'halted',\n  reason: items[0].json.error_message\n};\nfs.mkdirSync('/data/logs', { recursive: true });\nfs.appendFileSync('/data/logs/pipeline_b.jsonl', JSON.stringify(logEntry) + '\\n');\nthrow new Error(items[0].json.error_message);"
+      }
+    },
+
+    {
+      "id": "llm-extract-onboarding-patch",
+      "name": "LLM Extract Onboarding Updates (Patch)",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [1050, 300],
-      "notes": "Creates a task in Asana (or alternative) tracking Pipeline A completion. Uses ASANA_API_TOKEN env var."
-    },
-    {
-      "parameters": {},
-      "id": "a1b2c3d4-0001-0001-0001-000000000008",
-      "name": "Pipeline A Complete",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [1250, 200],
-      "notes": "Pipeline A done: v1 memo + agent spec stored, task created"
-    },
-    {
+      "typeVersion": 4,
+      "position": [1760, 720],
       "parameters": {
-        "command": "=cd /app && python scripts/pipeline_b.py \"{{ $json.onboardingTranscriptPath }}\" --account-id \"{{ $json.accountId }}\""
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000009",
-      "name": "Apply Onboarding Update (Pipeline B)",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [650, 400],
-      "notes": "Runs Pipeline B: merges onboarding data into v1, generates v2 memo + agent spec + changelog"
-    },
-    {
-      "parameters": {
-        "method": "PATCH",
-        "url": "=https://app.asana.com/api/1.0/tasks/{{ $json.existingTaskId }}",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "options": {
-          "bodyContentType": "json"
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/generate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
         },
-        "bodyParametersUi": {
-          "parameter": [
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"{{ $env.OLLAMA_MODEL }}\",\n  \"stream\": false,\n  \"prompt\": \"You are extracting updates from an onboarding call transcript for Clara Answers.\\n\\nYou will be given:\\n1. The existing v1 account memo (from demo call)\\n2. The onboarding call transcript\\n\\nYour job is to extract ONLY the fields that are newly confirmed, clarified, or changed in the onboarding call.\\n\\nReturn a JSON object with two keys:\\n- 'patch': an object containing only the changed or newly confirmed fields\\n- 'change_reasons': an object explaining why each field changed (e.g. 'confirmed on onboarding call', 'overrides demo assumption', 'new constraint introduced')\\n\\nDo not repeat unchanged fields in patch. If a previously null field is now confirmed, include it. If a field is explicitly overridden, include the new value.\\n\\nDo NOT hallucinate. If nothing changed for a field, omit it entirely from patch.\\n\\nReturn ONLY valid JSON. No markdown, no explanation.\\n\\nExisting v1 Memo:\\n{{ JSON.stringify($json.v1_memo) }}\\n\\nOnboarding Transcript:\\n{{ $json.transcript_text }}\"\n}"
+      }
+    },
+
+    {
+      "id": "parse-onboarding-patch",
+      "name": "Parse Onboarding Patch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1980, 720],
+      "parameters": {
+        "jsCode": "let raw = '';\ntry {\n  const body = items[0].json;\n  raw = body.response || body.message?.content || JSON.stringify(body);\n} catch(e) { raw = ''; }\nraw = raw.replace(/```json|```/g, '').trim();\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch(e) {\n  return [{ json: { ...items[0].json, parse_error: true, raw } }];\n}\nconst patch = parsed.patch || {};\nconst change_reasons = parsed.change_reasons || {};\nreturn [{ json: { ...items[0].json, patch, change_reasons } }];"
+      }
+    },
+
+    {
+      "id": "merge-v1-patch-to-v2",
+      "name": "Merge v1 Memo + Patch → v2 Memo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2200, 720],
+      "parameters": {
+        "jsCode": "const v1 = items[0].json.v1_memo;\nconst patch = items[0].json.patch || {};\nconst reasons = items[0].json.change_reasons || {};\n\nconst v2 = Object.assign({}, v1, patch);\nv2._version = 'v2';\nv2._updated_at = new Date().toISOString();\nv2._source = 'onboarding';\nv2._v1_created_at = v1._created_at;\n\nconst changelog = [];\nfor (const key of Object.keys(patch)) {\n  changelog.push({\n    field: key,\n    old_value: v1[key] !== undefined ? v1[key] : null,\n    new_value: patch[key],\n    reason: reasons[key] || 'updated on onboarding call'\n  });\n}\n\nreturn [{ json: { ...items[0].json, v2_memo: v2, changelog } }];"
+      }
+    },
+
+    {
+      "id": "llm-generate-spec-v2",
+      "name": "LLM Generate Agent Spec v2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2420, 720],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.OLLAMA_URL }}/api/generate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"{{ $env.OLLAMA_MODEL }}\",\n  \"stream\": false,\n  \"prompt\": \"You are an expert AI voice agent configurator for Clara Answers. This is an UPDATED configuration based on onboarding. Use the v2 memo. Be precise and do not revert to demo assumptions.\\n\\nGiven the v2 account memo below, generate a Retell Agent Spec as a valid JSON object.\\n\\nThe spec must include:\\n- agent_name: '<company_name> Clara Agent'\\n- version: 'v2'\\n- voice_style: 'professional, calm, empathetic'\\n- system_prompt: a fully written conversational prompt (see rules below)\\n- key_variables: { timezone, business_hours_start, business_hours_end, business_days, office_address, emergency_contacts }\\n- tool_invocation_placeholders: list of internal actions (never mention these to caller)\\n- call_transfer_protocol: { attempt_transfer_after_collecting: [], timeout_seconds, what_to_say_before_transfer }\\n- fallback_protocol: { message_if_transfer_fails, next_steps }\\n\\nSYSTEM PROMPT RULES (strictly follow):\\nBusiness hours flow must include:\\n1. Greeting with company name\\n2. Ask purpose of call\\n3. Collect caller name and callback number\\n4. Transfer or route based on call type\\n5. If transfer fails: apologize, confirm details were captured, assure follow-up\\n6. Ask 'Is there anything else I can help you with?'\\n7. Close politely\\n\\nAfter-hours flow must include:\\n1. Greeting with company name and after-hours acknowledgment\\n2. Ask purpose of call\\n3. Confirm if it is an emergency\\n4. If emergency: immediately collect name, phone number, and address, then attempt transfer to on-call\\n5. If transfer fails: apologize, assure someone will call back within 15 minutes\\n6. If non-emergency: collect details, confirm follow-up during next business hours\\n7. Ask 'Is there anything else?'\\n8. Close\\n\\nRULES:\\n- Never mention function calls, tools, or system actions to the caller\\n- Never ask more questions than needed for routing\\n- Do not hallucinate routing numbers or contacts not present in the memo\\n\\nv2 Account Memo:\\n{{ JSON.stringify($json.v2_memo) }}\\n\\nReturn ONLY a valid JSON object with no explanation.\"\n}"
+      }
+    },
+
+    {
+      "id": "parse-agent-spec-v2",
+      "name": "Parse Agent Spec v2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2640, 720],
+      "parameters": {
+        "jsCode": "let raw = '';\ntry {\n  const body = items[0].json;\n  raw = body.response || body.message?.content || JSON.stringify(body);\n} catch(e) { raw = ''; }\nraw = raw.replace(/```json|```/g, '').trim();\nlet spec;\ntry {\n  spec = JSON.parse(raw);\n} catch(e) {\n  spec = { parse_error: true, raw };\n}\nspec.version = 'v2';\nspec.account_id = items[0].json.account_id;\nspec._generated_at = new Date().toISOString();\nreturn [{ json: { ...items[0].json, agent_spec_v2: spec } }];"
+      }
+    },
+
+    {
+      "id": "write-v2-outputs",
+      "name": "Write v2 Memo, Spec, and Changelog to Disk",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2860, 720],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst accountId = items[0].json.account_id;\nconst v2Dir = `/data/outputs/accounts/${accountId}/v2`;\nconst changelogDir = `/data/outputs/accounts/${accountId}`;\nfs.mkdirSync(v2Dir, { recursive: true });\n\nfs.writeFileSync(`${v2Dir}/memo.json`, JSON.stringify(items[0].json.v2_memo, null, 2));\nfs.writeFileSync(`${v2Dir}/agent_spec.json`, JSON.stringify(items[0].json.agent_spec_v2, null, 2));\n\nconst changelogPayload = {\n  account_id: accountId,\n  v1_created_at: items[0].json.v1_memo?._created_at,\n  v2_created_at: items[0].json.v2_memo._updated_at,\n  changes: items[0].json.changelog\n};\nfs.writeFileSync(`${changelogDir}/changelog.json`, JSON.stringify(changelogPayload, null, 2));\n\nreturn [{ json: { ...items[0].json, v2_memo_path: `${v2Dir}/memo.json`, v2_spec_path: `${v2Dir}/agent_spec.json`, changelog_path: `${changelogDir}/changelog.json` } }];"
+      }
+    },
+
+    {
+      "id": "update-tracker-onboarding",
+      "name": "Update Task Tracker (Onboarding Complete)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [3080, 720],
+      "parameters": {
+        "operation": "update",
+        "documentId": "={{ $env.TRACKER_SHEET_ID }}",
+        "sheetName": "Pipeline Tracker",
+        "filtersUI": {
+          "values": [
             {
-              "name": "name",
-              "value": "=[Clara] v2 Agent Ready — {{ $json.companyName }}"
-            },
-            {
-              "name": "notes",
-              "value": "=Account: {{ $json.accountId }}\nv2 agent spec generated after onboarding.\nConflicts resolved: {{ $json.conflictsCount }}\nChangelog: outputs/accounts/{{ $json.accountId }}/changelog.md"
+              "lookupColumn": "account_id",
+              "lookupValue": "={{ $json.account_id }}"
             }
           ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "stage": "onboarding_processed",
+            "v2_created_at": "={{ $json.v2_memo._updated_at }}",
+            "status": "agent_ready",
+            "changelog_count": "={{ $json.changelog.length }}"
+          }
         }
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000010",
-      "name": "Update Task Tracker (v2)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.1,
-      "position": [850, 400],
-      "notes": "Updates the existing task to reflect v2 completion"
+      }
     },
+
     {
-      "parameters": {},
-      "id": "a1b2c3d4-0001-0001-0001-000000000011",
-      "name": "Pipeline B Complete",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [1050, 400],
-      "notes": "Pipeline B done: v2 memo + agent spec + changelog stored"
-    },
-    {
+      "id": "log-pipeline-b",
+      "name": "Log Pipeline B Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3300, 720],
       "parameters": {
-        "command": "=cd /app && python scripts/batch_run.py --demo-dir data/demo --onboarding-dir data/onboarding"
-      },
-      "id": "a1b2c3d4-0001-0001-0001-000000000012",
-      "name": "Batch Run All Accounts",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [650, 550],
-      "notes": "Runs both pipelines across all 10 files in one batch. Alternative to running per-account."
+        "jsCode": "const fs = require('fs');\nconst logEntry = {\n  timestamp: new Date().toISOString(),\n  account_id: items[0].json.account_id,\n  pipeline: 'B',\n  status: 'success',\n  changes_applied: items[0].json.changelog?.length || 0\n};\nfs.mkdirSync('/data/logs', { recursive: true });\nfs.appendFileSync('/data/logs/pipeline_b.jsonl', JSON.stringify(logEntry) + '\\n');\nreturn [{ json: logEntry }];"
+      }
     }
+
   ],
+
   "connections": {
-    "Start": {
+    "Watch Demo Input Folder": {
+      "main": [[{ "node": "Assign Account ID (Demo)", "type": "main", "index": 0 }]]
+    },
+    "Assign Account ID (Demo)": {
+      "main": [[{ "node": "Route by File Type (Demo)", "type": "main", "index": 0 }]]
+    },
+    "Route by File Type (Demo)": {
       "main": [
-        [
-          {
-            "node": "Read Transcript",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Read Transcript Text (Demo)", "type": "main", "index": 0 }],
+        [{ "node": "Transcribe Audio via Whisper (Demo)", "type": "main", "index": 0 }]
       ]
     },
-    "Read Transcript": {
+    "Read Transcript Text (Demo)": {
+      "main": [[{ "node": "Merge Transcript Paths (Demo)", "type": "main", "index": 0 }]]
+    },
+    "Transcribe Audio via Whisper (Demo)": {
+      "main": [[{ "node": "Normalize Whisper Output (Demo)", "type": "main", "index": 0 }]]
+    },
+    "Normalize Whisper Output (Demo)": {
+      "main": [[{ "node": "Merge Transcript Paths (Demo)", "type": "main", "index": 1 }]]
+    },
+    "Merge Transcript Paths (Demo)": {
+      "main": [[{ "node": "LLM Extract Account Memo (Demo)", "type": "main", "index": 0 }]]
+    },
+    "LLM Extract Account Memo (Demo)": {
+      "main": [[{ "node": "Parse Account Memo JSON (Demo)", "type": "main", "index": 0 }]]
+    },
+    "Parse Account Memo JSON (Demo)": {
+      "main": [[{ "node": "Validate Memo Fields (Demo)", "type": "main", "index": 0 }]]
+    },
+    "Validate Memo Fields (Demo)": {
+      "main": [[{ "node": "LLM Generate Agent Spec v1", "type": "main", "index": 0 }]]
+    },
+    "LLM Generate Agent Spec v1": {
+      "main": [[{ "node": "Parse Agent Spec v1", "type": "main", "index": 0 }]]
+    },
+    "Parse Agent Spec v1": {
       "main": [
-        [
-          {
-            "node": "Extract Account Memo (Pipeline A)",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Write Memo v1 to Disk", "type": "main", "index": 0 }],
+        [{ "node": "Write Agent Spec v1 to Disk", "type": "main", "index": 0 }]
       ]
     },
-    "Extract Account Memo (Pipeline A)": {
+    "Write Memo v1 to Disk": {
+      "main": [[{ "node": "Create Task Tracker Item (Google Sheets)", "type": "main", "index": 0 }]]
+    },
+    "Write Agent Spec v1 to Disk": {
+      "main": [[{ "node": "Create Task Tracker Item (Google Sheets)", "type": "main", "index": 0 }]]
+    },
+    "Create Task Tracker Item (Google Sheets)": {
+      "main": [[{ "node": "Log Pipeline A Result", "type": "main", "index": 0 }]]
+    },
+
+    "Watch Onboarding Input Folder": {
+      "main": [[{ "node": "Assign Account ID (Onboarding)", "type": "main", "index": 0 }]]
+    },
+    "Assign Account ID (Onboarding)": {
+      "main": [[{ "node": "Route by File Type (Onboarding)", "type": "main", "index": 0 }]]
+    },
+    "Route by File Type (Onboarding)": {
       "main": [
-        [
-          {
-            "node": "Generate Agent Spec v1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Read Transcript Text (Onboarding)", "type": "main", "index": 0 }],
+        [{ "node": "Transcribe Audio via Whisper (Onboarding)", "type": "main", "index": 0 }]
       ]
     },
-    "Generate Agent Spec v1": {
+    "Read Transcript Text (Onboarding)": {
+      "main": [[{ "node": "Merge Transcript Paths (Onboarding)", "type": "main", "index": 0 }]]
+    },
+    "Transcribe Audio via Whisper (Onboarding)": {
+      "main": [[{ "node": "Normalize Whisper Output (Onboarding)", "type": "main", "index": 0 }]]
+    },
+    "Normalize Whisper Output (Onboarding)": {
+      "main": [[{ "node": "Merge Transcript Paths (Onboarding)", "type": "main", "index": 1 }]]
+    },
+    "Merge Transcript Paths (Onboarding)": {
+      "main": [[{ "node": "Load Existing v1 Memo", "type": "main", "index": 0 }]]
+    },
+    "Load Existing v1 Memo": {
+      "main": [[{ "node": "Check v1 Memo Exists", "type": "main", "index": 0 }]]
+    },
+    "Check v1 Memo Exists": {
       "main": [
-        [
-          {
-            "node": "Store v1 Memo",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Store v1 Agent Spec",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Create Task Tracker Item",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Halt - Missing v1 Memo", "type": "main", "index": 0 }],
+        [{ "node": "LLM Extract Onboarding Updates (Patch)", "type": "main", "index": 0 }]
       ]
     },
-    "Store v1 Memo": {
-      "main": [
-        [
-          {
-            "node": "Pipeline A Complete",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "LLM Extract Onboarding Updates (Patch)": {
+      "main": [[{ "node": "Parse Onboarding Patch", "type": "main", "index": 0 }]]
     },
-    "Store v1 Agent Spec": {
-      "main": [
-        [
-          {
-            "node": "Pipeline A Complete",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "Parse Onboarding Patch": {
+      "main": [[{ "node": "Merge v1 Memo + Patch → v2 Memo", "type": "main", "index": 0 }]]
     },
-    "Apply Onboarding Update (Pipeline B)": {
-      "main": [
-        [
-          {
-            "node": "Update Task Tracker (v2)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "Merge v1 Memo + Patch → v2 Memo": {
+      "main": [[{ "node": "LLM Generate Agent Spec v2", "type": "main", "index": 0 }]]
     },
-    "Update Task Tracker (v2)": {
-      "main": [
-        [
-          {
-            "node": "Pipeline B Complete",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+    "LLM Generate Agent Spec v2": {
+      "main": [[{ "node": "Parse Agent Spec v2", "type": "main", "index": 0 }]]
+    },
+    "Parse Agent Spec v2": {
+      "main": [[{ "node": "Write v2 Memo, Spec, and Changelog to Disk", "type": "main", "index": 0 }]]
+    },
+    "Write v2 Memo, Spec, and Changelog to Disk": {
+      "main": [[{ "node": "Update Task Tracker (Onboarding Complete)", "type": "main", "index": 0 }]]
+    },
+    "Update Task Tracker (Onboarding Complete)": {
+      "main": [[{ "node": "Log Pipeline B Result", "type": "main", "index": 0 }]]
     }
   },
+
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
   },
+
   "staticData": null,
-  "pinData": {},
+  "tags": ["clara-answers", "automation", "pipeline-a", "pipeline-b"],
+  "triggerCount": 2,
+  "updatedAt": "2026-03-06T00:00:00.000Z",
+  "versionId": "1.0.0",
+
   "meta": {
-    "instanceId": "clara-ai-pipeline",
-    "templateId": "clara-demo-to-agent"
-  },
-  "_comment": {
-    "description": "Clara AI Automation Pipeline — Demo Call to Retell Agent Draft to Onboarding Update",
-    "pipelines": {
-      "pipeline_a": "Start → Read Transcript → Extract Account Memo → Generate Agent Spec v1 → Store → Create Task",
-      "pipeline_b": "Apply Onboarding Update → Update Task",
-      "batch": "Batch Run All Accounts (runs both pipelines on all 10 files)"
-    },
+    "description": "Full Clara Answers automation pipeline. Pipeline A: Demo Call → v1 Account Memo + Agent Spec. Pipeline B: Onboarding Call → v2 Memo + Agent Spec + Changelog. Runs on local Ollama LLM (zero-cost). Outputs stored to /data/outputs. Tracker written to Google Sheets.",
     "environment_variables": {
-      "GROQ_API_KEY": "Optional — Groq API key for LLM extraction (free tier)",
-      "OLLAMA_URL": "Optional — local Ollama URL (e.g. http://localhost:11434)",
-      "OLLAMA_MODEL": "Optional — Ollama model name (default: llama3)",
-      "LLM_BACKEND": "Optional — force backend: groq | ollama | rule_based",
-      "ASANA_PROJECT_ID": "Optional — Asana project GID for task creation",
-      "ASANA_API_TOKEN": "Optional — Asana personal access token"
+      "OLLAMA_URL": "http://localhost:11434",
+      "OLLAMA_MODEL": "mistral",
+      "INPUT_DEMO_DIR": "/data/input/demo",
+      "INPUT_ONBOARDING_DIR": "/data/input/onboarding",
+      "OUTPUT_DIR": "/data/outputs",
+      "LOG_DIR": "/data/logs",
+      "TRACKER_SHEET_ID": "<your_google_sheet_id>"
     },
-    "zero_cost_note": "This workflow runs entirely for free. No paid APIs required. LLM step uses Groq free tier or local Ollama. Asana task creation is optional."
+    "output_structure": {
+      "pipeline_a": "/data/outputs/accounts/<account_id>/v1/memo.json",
+      "pipeline_a_spec": "/data/outputs/accounts/<account_id>/v1/agent_spec.json",
+      "pipeline_b": "/data/outputs/accounts/<account_id>/v2/memo.json",
+      "pipeline_b_spec": "/data/outputs/accounts/<account_id>/v2/agent_spec.json",
+      "changelog": "/data/outputs/accounts/<account_id>/changelog.json",
+      "logs_a": "/data/logs/pipeline_a.jsonl",
+      "logs_b": "/data/logs/pipeline_b.jsonl"
+    }
   }
 }
